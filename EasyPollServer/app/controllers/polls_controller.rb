@@ -74,7 +74,11 @@ class PollsController < ApplicationController
     @poll.close
 
     respond_to do |format|
-      format.html { redirect_to polls_url }
+      if @poll.save
+        format.html { redirect_to polls_url, notice: 'Poll was successfully closed.' }
+      else
+        format.html { redirect_to polls_url }
+      end
     end
   end
 end
