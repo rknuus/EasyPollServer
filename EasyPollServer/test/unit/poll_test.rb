@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class PollTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "initially published at set" do
+    p = Poll.create
+    assert !p.published_at.nil?
+  end
 end

@@ -8,7 +8,8 @@ class PollsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:polls)
+    assert_not_nil assigns(:active_polls)
+    assert_not_nil assigns(:closed_polls)
   end
 
   test "should get new" do
