@@ -13,7 +13,7 @@
 	  <tr>
 	    <td><%= poll.title %></td>
 	    <!-- <td>< %= poll.answers.count %></td> -->
-	    <td><%= l poll.published_at, :format => :long %></td>
+	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
 	    <td><%= button_to 'Close poll', poll, confirm: 'Are you sure?' %></td>
 	    <!-- <td>< %= link_to 'Close poll', close_poll_path(poll), confirm: 'Are you sure?' %></td> -->
 	  </tr>
@@ -40,8 +40,8 @@
 	  <tr>
 	    <td><%= poll.title %></td>
 	    <!-- <td>< %= poll.answers.count %></td> -->
-	    <td><%= l poll.closed_at, :format => :long %></td>
-	    <td><%= l poll.published_at, :format => :long %></td>
+	    <td><%= poll.closed_at.to_formatted_s(:long) %></td>
+	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
 	    <td><%= link_to 'Download poll results', poll %></td>
 	    <!-- <td>< %= link_to 'Download poll results', get_poll_result_path(poll) %></td> -->
 	    <td><%= button_to 'Delete poll', poll, confirm: 'Are you sure?', :method => :delete %></td>

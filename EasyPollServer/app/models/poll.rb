@@ -6,6 +6,6 @@ class Poll < ActiveRecord::Base
   
 private
   def initialize_published_at
-    self.published_at = DateTime.now
+    self.published_at = DateTime.now if self.published_at.nil?
   end
 end
