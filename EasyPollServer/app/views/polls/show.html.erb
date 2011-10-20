@@ -7,14 +7,8 @@
 
 <p>
   <b>Published at:</b>
-  <%= @poll.published_at %>
+  <%= @poll.published_at.to_formatted_s(:long) %>
 </p>
-
-<p>
-  <b>Closed at:</b>
-  <%= @poll.closed_at %>
-</p>
-
 
 <%= link_to 'Edit', edit_poll_path(@poll) %> |
 <%= link_to 'Back', polls_path %>
