@@ -12,6 +12,14 @@ class PollTest < ActiveSupport::TestCase
     assert p.invalid?
     assert p.errors[:title].any?
     assert p.errors[:published_at].any?
+    assert p.errors[:category].any?
+  end
+  
+  test "whitelist category" do
+    p = polls(:one).dup
+    p.category = 'Absolutely Positively Surely Not Existing Category'
+    assert p.invalid?
+    assert p.errors[:category].any?
   end
   
   test "should close poll" do

@@ -2,10 +2,12 @@
 
 one:
   title: MyString
+  category: 'Political Poll'
   published_at: 2011-10-20 19:23:48
   closed_at: 2011-10-20 19:23:48
 
 two:
   title: MyString
+  category: 'Commercial Poll'
   published_at: 2011-10-20 19:23:48
   closed_at: 2011-10-20 19:23:48

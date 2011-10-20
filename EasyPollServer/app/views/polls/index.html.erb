@@ -4,6 +4,7 @@
 	<table>
 	  <tr>
 	    <th>Title</th>
+	    <th>Category</th>
 	    <!-- <th># of answers</th> -->
 	    <th>Published at</th>
 	    <th></th>
@@ -12,6 +13,7 @@
 	<% @active_polls.each do |poll| %>
 	  <tr>
 	    <td><%= poll.title %></td>
+	    <td><%= poll.category %></td>
 	    <!-- <td>< %= poll.answers.count %></td> -->
 	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
 	    <td><%= button_to 'Close poll', close_poll_path(poll), confirm: 'Are you sure?', :method => :put %></td>
@@ -28,6 +30,7 @@
 	<table>
 	  <tr>
 	    <th>Title</th>
+	    <th>Category</th>
 	    <!-- <th># of answers</th> -->
 	    <th>Closed at</th>
 	    <th>Published at</th>
@@ -38,6 +41,7 @@
 	<% @closed_polls.each do |poll| %>
 	  <tr>
 	    <td><%= poll.title %></td>
+	    <td><%= poll.category %></td>
 	    <!-- <td>< %= poll.answers.count %></td> -->
 	    <td><%= poll.closed_at.to_formatted_s(:long) %></td>
 	    <td><%= poll.published_at.to_formatted_s(:long) %></td>

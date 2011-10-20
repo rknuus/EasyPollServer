@@ -1,5 +1,8 @@
 class Poll < ActiveRecord::Base
-  validates :title, :published_at, :presence => true
+  CATEGORIES = ['Political Poll', 'Commercial Poll']
+  
+  validates :title, :category, :published_at, :presence => true
+  validates :category, :inclusion => CATEGORIES
   #FIXME: should title be unique?!
   
   after_initialize :initialize_published_at
