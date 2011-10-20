@@ -1,52 +1,56 @@
 <h1>Active polls</h1>
 
-<p>Found <%= @active_polls.count %> active polls.</p>
+<% if @active_polls.count > 0 %>
+	<table>
+	  <tr>
+	    <th>Title</th>
+	    <!-- <th># of answers</th> -->
+	    <th>Published at</th>
+	    <th></th>
+	  </tr>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <!-- <th># of answers</th> -->
-    <th>Published at</th>
-    <th></th>
-  </tr>
-
-<% @active_polls.each do |poll| %>
-  <tr>
-    <td><%= poll.title %></td>
-    <!-- <td>< %= poll.answers.count %></td> -->
-    <td><%= poll.published_at %></td>
-    <td><%= link_to 'Close poll', poll, confirm: 'Are you sure?' %></td>
-    <!-- <td>< %= link_to 'Close poll', close_poll_path(poll), confirm: 'Are you sure?' %></td> -->
-  </tr>
+	<% @active_polls.each do |poll| %>
+	  <tr>
+	    <td><%= poll.title %></td>
+	    <!-- <td>< %= poll.answers.count %></td> -->
+	    <td><%= poll.published_at %></td>
+	    <td><%= button_to 'Close poll', poll, confirm: 'Are you sure?' %></td>
+	    <!-- <td>< %= link_to 'Close poll', close_poll_path(poll), confirm: 'Are you sure?' %></td> -->
+	  </tr>
+	<% end %>
+	</table>
+<% else %>
+  <p>Found no active polls.</p>
 <% end %>
-</table>
 
 <h1>Closed polls</h1>
 
-<p>Found <%= @closed_polls.count %> closed polls.</p>
+<% if @closed_polls.count > 0 %>
+	<table>
+	  <tr>
+	    <th>Title</th>
+	    <!-- <th># of answers</th> -->
+	    <th>Closed at</th>
+	    <th>Published at</th>
+	    <th></th>
+	    <th></th>
+	  </tr>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <!-- <th># of answers</th> -->
-    <th>Closed at</th>
-    <th>Published at</th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @closed_polls.each do |poll| %>
-  <tr>
-    <td><%= poll.title %></td>
-    <!-- <td>< %= poll.answers.count %></td> -->
-    <td><%= poll.closed_at %></td>
-    <td><%= poll.published_at %></td>
-    <td><%= link_to 'Download poll results', poll %></td>
-    <!-- <td>< %= link_to 'Download poll results', get_poll_result_path(poll) %></td> -->
-    <td><%= link_to 'Delete poll', poll, confirm: 'Are you sure?', :method => :delete %></td>
-  </tr>
+	<% @closed_polls.each do |poll| %>
+	  <tr>
+	    <td><%= poll.title %></td>
+	    <!-- <td>< %= poll.answers.count %></td> -->
+	    <td><%= poll.closed_at %></td>
+	    <td><%= poll.published_at %></td>
+	    <td><%= link_to 'Download poll results', poll %></td>
+	    <!-- <td>< %= link_to 'Download poll results', get_poll_result_path(poll) %></td> -->
+	    <td><%= button_to 'Delete poll', poll, confirm: 'Are you sure?', :method => :delete %></td>
+	  </tr>
+	<% end %>
+	</table>
+<% else %>
+  <p>Found no closed polls.</p>
 <% end %>
-</table>
 
 <h1>New polls</h1>
 
