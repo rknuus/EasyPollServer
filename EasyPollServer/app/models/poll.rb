@@ -1,7 +1,11 @@
 class Poll < ActiveRecord::Base
-  # attr_reader :answers
-  # 
-  # def initialize
-  #   @answers = []
-  # end
+  validates :title, :published_at, :presence => true
+  #FIXME: should title be unique?!
+  
+  after_initialize :initialize_published_at
+  
+private
+  def initialize_published_at
+    self.published_at = DateTime.now
+  end
 end
