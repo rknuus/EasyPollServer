@@ -47,4 +47,10 @@ class PollsControllerTest < ActionController::TestCase
 
     assert_redirected_to polls_path
   end
+  
+  test "should close poll" do
+    #FIXME: assert_difference('Poll.closed_at', ???)
+    put :close, id: @poll.to_param, poll: @poll.attributes
+    assert_redirected_to polls_path
+  end
 end

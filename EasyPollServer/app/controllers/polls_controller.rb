@@ -67,4 +67,14 @@ class PollsController < ApplicationController
       format.html { redirect_to polls_url }
     end
   end
+
+  # PUT /polls/1/close
+  def close
+    @poll = Poll.find(params[:id])
+    @poll.close
+
+    respond_to do |format|
+      format.html { redirect_to polls_url }
+    end
+  end
 end

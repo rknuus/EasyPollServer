@@ -13,4 +13,10 @@ class PollTest < ActiveSupport::TestCase
     assert p.errors[:title].any?
     assert p.errors[:published_at].any?
   end
+  
+  test "should close poll" do
+    p = polls(:one).dup
+    p.close
+    assert !p.closed_at.nil?
+  end
 end

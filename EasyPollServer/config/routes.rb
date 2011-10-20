@@ -1,5 +1,7 @@
 EasyPollServer::Application.routes.draw do
-  resources :polls
+  resources :polls do
+    put :close, :on => :member
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
