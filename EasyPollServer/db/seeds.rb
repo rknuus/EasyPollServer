@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Poll.delete_all
+Poll.create(:title => 'Do you like Macs?')
+Poll.create(:title => 'Do you like Windows?')
