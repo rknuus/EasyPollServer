@@ -20,7 +20,9 @@ class PollsController < ApplicationController
 
   # GET /polls/new
   def new
-    @poll = Poll.new
+    session[:poll_params] ||= {}
+    @poll = Poll.new(session[:poll_params])
+    @poll.current_step = session[:poll_step]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -28,24 +30,38 @@ class PollsController < ApplicationController
   end
 
   # GET /polls/1/edit
+  #FIXME: delete
   def edit
     @poll = Poll.find(params[:id])
   end
 
   # POST /polls
   def create
-    @poll = Poll.new(params[:poll])
-
+    #debugger
+    session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
+    @poll = Poll.new(session[:poll_params])
+    @poll.current_step = session[:poll_step]
+    if params[:back_button]
+      @poll.previous_step
+    elsif params[:publish_button]
+      @poll.save
+    else
+      @poll.next_step
+    end
+    session[:poll_step] = @poll.current_step
+    
     respond_to do |format|
-      if @poll.save
-        format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
-      else
+      if @poll.new_record?
         format.html { render action: "new" }
+      else
+        session[:poll_step] = session[:poll_params] = nil
+        format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
       end
     end
   end
 
   # PUT /polls/1
+  #FIXME: delete
   def update
     @poll = Poll.find(params[:id])
 

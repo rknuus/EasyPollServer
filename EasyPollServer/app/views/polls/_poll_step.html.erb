@@ -1,0 +1,9 @@
+<h2>Poll information</h2>
+<div class="field">
+  <%= f.label :title %><br />
+  <%= f.text_field :title %>
+</div>
+<div class="field">
+  <%= f.label :category %><br />
+  <%= f.select :category, Poll::CATEGORIES, :prompt => 'Select a category' %>
+</div>
