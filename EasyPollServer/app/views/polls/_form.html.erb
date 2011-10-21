@@ -19,7 +19,36 @@
     <%= f.label :category %><br />
     <%= f.select :category, Poll::CATEGORIES, :prompt => 'Select a category' %>
   </div>
+
+  <% if @poll.questions.count > 0 %>
+		<table>
+		  <tr>
+		    <th>ID</th>
+		    <th>Text</th>
+		    <th>Kind</th>
+		    <th></th>
+		    <th></th>
+		  </tr>
+
+			<% i = 0
+			 @poll.questions.each do |question|
+			   i += 1 %>
+			  <tr>
+			    <td><%= i %></td>
+			    <td><%= question.text %></td>
+			    <td><%= question.kind %></td>
+			    <td><%= button_to 'Change', question_path(question) %></td>
+			    <td><%= button_to 'Delete', question_path(question), confirm: 'Are you sure?', :method => :delete %></td>
+			  </tr>
+			<% end %>
+		</table>
+	<% else %>
+	  <p>No questions yet</p>
+	<% end %>
+  <p><%= button_to 'Add question', new_question_path(@poll) %></p>
+	
   <div class="actions">
+	  <% #FIXME: change text to Publish resp. Next and only enable it if at least 1 question defined %>
     <%= f.submit %>
   </div>
 <% end %>

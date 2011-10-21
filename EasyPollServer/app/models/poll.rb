@@ -1,6 +1,8 @@
 class Poll < ActiveRecord::Base
   CATEGORIES = ['Political Poll', 'Commercial Poll']
   
+  has_many :questions, :dependent => :destroy
+  
   validates :title, :category, :published_at, :presence => true
   validates :category, :inclusion => CATEGORIES
   #FIXME: should title be unique?!

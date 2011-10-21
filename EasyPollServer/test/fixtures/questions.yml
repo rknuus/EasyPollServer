@@ -2,8 +2,8 @@
 
 one:
   text: MyString
-  kind: MyString
+  kind: 'Yes/No'
 
 two:
   text: MyString
-  kind: MyString
+  kind: 'Scale 1..10'
