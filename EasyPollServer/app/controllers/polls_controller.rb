@@ -47,6 +47,8 @@ class PollsController < ApplicationController
       @poll.previous_step
       show_wizard
     elsif params[:new_question_button]
+      @question_index = @poll.questions.count
+      @question = Question.new
       @poll.next_step
       show_wizard
     elsif params[:create_question_button]

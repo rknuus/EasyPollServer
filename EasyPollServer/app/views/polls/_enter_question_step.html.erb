@@ -1,4 +1,14 @@
-<h2>Enter question</h2>
+<h2>Enter question <%= @question_index + 1 %></h2>
+
+<div class="field">
+  <%= f.label 'Question' %><br />
+  <%= f.text_field :new_question_text %>
+</div>
+<div class="field">
+  <%= f.label 'Kind' %><br />
+  <%= f.select :new_question_kind, Question::KINDS, :prompt => 'Select a kind' %>
+</div>
+
 <div class="actions">
   <%= f.submit 'Cancel', :name => 'cancel_button' %>
   <%= f.submit 'Add', :name => 'create_question_button' %>
