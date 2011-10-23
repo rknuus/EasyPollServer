@@ -17,7 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :kind %><br />
-    <%= f.text_field :kind %>
+	  <%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %>
+  </div>
+  <div class="field">
+    <%= f.label :poll_id %><br />
+    <%= f.text_field :poll_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

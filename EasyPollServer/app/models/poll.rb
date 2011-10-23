@@ -1,14 +1,19 @@
 class Poll < ActiveRecord::Base
   attr_writer :current_step
   
+  attr_accessor :new_question_text, :new_question_kind
+  
   CATEGORIES = ['Political Poll', 'Commercial Poll']
 
   has_many :questions, :dependent => :destroy
+  accepts_nested_attributes_for :questions, :reject_if => lambda { |a| a[:text].blank? }, :allow_destroy => true
   
   validates :title, :category, :published_at, :presence => true
   validates :category, :inclusion => CATEGORIES
   #FIXME: should title be unique?!
   #FIXME: validate_numericality_of questions.count > 0, :if => lambda { |p| p.current_step = p.steps.last }
+  
+  #validates :new_question_text, :presence => true, :if => lambda { |p| p.current_step == 'enter_question' }
   
   after_initialize :initialize_published_at
     
@@ -17,7 +22,7 @@ class Poll < ActiveRecord::Base
   end
   
   def steps
-    %w[poll enter_questions]
+    %w[poll enter_question list_questions]
   end
   
   def current_step
@@ -25,11 +30,11 @@ class Poll < ActiveRecord::Base
   end
   
   def next_step
-    self.current_step = steps.last
+    self.current_step = steps[steps.index(current_step)+1]
   end
   
   def previous_step
-    self.current_step = steps.first
+    self.current_step = steps[steps.index(current_step)-1]
   end
   
   def first_step?

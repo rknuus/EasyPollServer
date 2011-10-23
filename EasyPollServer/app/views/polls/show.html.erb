@@ -15,5 +15,16 @@
   <%= @poll.published_at.to_formatted_s(:long) %>
 </p>
 
+<p>
+  <b>Closed at:</b>
+  <%= @poll.closed_at.to_formatted_s(:long) if @poll.closed_at %>
+</p>
+
+<ol>
+<% for question in @poll.questions %>
+  <li><%= h question.text %></li>
+<% end %>
+</ol>
+
 <%= link_to 'Edit', edit_poll_path(@poll) %> |
 <%= link_to 'Back', polls_path %>

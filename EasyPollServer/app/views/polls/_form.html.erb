@@ -14,8 +14,8 @@
   <%= render "#{@poll.current_step}_step", :f => f %>
 
   <div class="actions">
-    <%= f.submit "Continue" unless @poll.last_step? %>
     <%= f.submit "Back", :name => 'back_button' unless @poll.first_step? %>
+    <%= f.submit "Continue" unless @poll.last_step? %>
     <%= f.submit "Publish", :name => 'publish_button' if @poll.last_step? %>
   </div>
 <% end %>

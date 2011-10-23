@@ -1,0 +1,3 @@
+<p><%= f.label :text, "Question: " %><%= f.text_field :text %></p>
+<p><%= f.label :kind, "Kind: " %><%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %></p>
+<p><%= f.label :_destroy, "Remove Question" %><%= f.check_box :_destroy %></p>

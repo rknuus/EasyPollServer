@@ -21,7 +21,9 @@ class PollsController < ApplicationController
   # GET /polls/new
   def new
     session[:poll_params] ||= {}
+    session[:question_list] ||= []
     @poll = Poll.new(session[:poll_params])
+    @poll.questions = session[:question_list]
     @poll.current_step = session[:poll_step]
 
     respond_to do |format|
@@ -37,24 +39,43 @@ class PollsController < ApplicationController
 
   # POST /polls
   def create
-    #debugger
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
     @poll = Poll.new(session[:poll_params])
     @poll.current_step = session[:poll_step]
     if params[:back_button]
       @poll.previous_step
+    elsif params[:new_question_button]
+      #FIXME: move new_question stuff into a separate question object which is a child of
+      #@poll, so it can be treated similar to the question list as nested attribute and possibly
+      #even shares code
+      @poll.new_question_text = ''
+      @poll.new_question_kind = 'Select a kind'
+      @poll.previous_step
     elsif params[:publish_button]
       @poll.save
     else
+      if @poll.current_step == 'enter_question'
+        question = Question.create
+        question.poll_id = @poll.id
+        question.text = @poll.new_question_text
+        question.kind = @poll.new_question_kind
+        #FIXME: assert question.valid?
+        @poll.questions << question
+      end
       @poll.next_step
     end
+    @questions_count = session[:question_list].count
+    session[:question_list] = @poll.questions
     session[:poll_step] = @poll.current_step
     
     respond_to do |format|
       if @poll.new_record?
         format.html { render action: "new" }
+      elsif params[:new_question_button]
+        #FIXME: redirect to new question
+        #FIXME: make sure new question returns to new 
       else
-        session[:poll_step] = session[:poll_params] = nil
+        session[:poll_step] = session[:poll_params] = session[:question_list] = nil
         format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
       end
     end
