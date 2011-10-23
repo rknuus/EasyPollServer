@@ -20,7 +20,9 @@ class PollsController < ApplicationController
 
   # GET /polls/new
   def new
-    @poll = Poll.new
+    session[:poll_params] ||= {}
+    @poll = Poll.new(session[:poll_params])
+    @poll.current_step = session[:poll_step]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,17 +36,41 @@ class PollsController < ApplicationController
 
   # POST /polls
   def create
-    @poll = Poll.new(params[:poll])
+    session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
+    @poll = Poll.new(session[:poll_params])
+    @poll.current_step = session[:poll_step]
 
-    respond_to do |format|
+    if params[:continue_button]
+      @poll.next_step
+      show_wizard
+    elsif params[:back_button]
+      @poll.previous_step
+      show_wizard
+    elsif params[:add_button]
+      @poll.previous_step
+      show_wizard
+    elsif params[:cancel_button]
+      @poll.previous_step
+      show_wizard
+    else #params[:publish_button]
       if @poll.save
-        format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
+        respond_to do |format|
+          format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
+        end
       else
-        format.html { render action: "new" }
+        show_wizard
       end
     end
   end
-
+  
+  def show_wizard
+    session[:poll_step] = @poll.current_step
+    
+    respond_to do |format|
+      format.html { render action: "new" }
+    end
+  end
+  
   # PUT /polls/1
   def update
     @poll = Poll.find(params[:id])
