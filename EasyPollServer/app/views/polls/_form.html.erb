@@ -11,14 +11,12 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :category %><br />
-    <%= f.select :category, Poll::CATEGORIES, :prompt => 'Select a category' %>
-  </div>
+	<%= render 'create_poll_step', :f => f %>
+
+	<%= render 'enter_question_step', :f => f %>
+	
+	<%= render 'question_list_step', :f => f %>
+	
   <div class="actions">
     <%= f.submit %>
   </div>
