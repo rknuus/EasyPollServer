@@ -11,6 +11,10 @@ class Poll < ActiveRecord::Base
     self.closed_at = DateTime.now if self.closed_at.nil?
   end
   
+  def steps
+    %w[poll_title enter_question list_questions]
+  end
+  
 private
   def initialize_published_at
     self.published_at = DateTime.now if self.published_at.nil?

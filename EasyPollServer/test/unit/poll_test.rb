@@ -27,4 +27,8 @@ class PollTest < ActiveSupport::TestCase
     p.close
     assert !p.closed_at.nil?
   end
+  
+  test "should have steps" do
+    assert_equal 3, polls(:one).steps.count
+  end
 end
