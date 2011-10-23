@@ -14,7 +14,7 @@ class Poll < ActiveRecord::Base
   end
   
   def steps
-    %w[create_poll enter_question question_list]
+    %w[create_poll question_list enter_question]
   end
   
   def current_step
