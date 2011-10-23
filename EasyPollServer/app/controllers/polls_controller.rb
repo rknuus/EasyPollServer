@@ -46,7 +46,10 @@ class PollsController < ApplicationController
     elsif params[:back_button]
       @poll.previous_step
       show_wizard
-    elsif params[:add_button]
+    elsif params[:new_question_button]
+      @poll.next_step
+      show_wizard
+    elsif params[:create_question_button]
       @poll.previous_step
       show_wizard
     elsif params[:cancel_button]
