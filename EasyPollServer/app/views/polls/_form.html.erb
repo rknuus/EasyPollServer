@@ -11,12 +11,8 @@
     </div>
   <% end %>
 
-	<%= render 'create_poll_step', :f => f %>
+	<%= render "#{@poll.current_step}_step", :f => f %>
 
-	<%= render 'enter_question_step', :f => f %>
-	
-	<%= render 'question_list_step', :f => f %>
-	
   <div class="actions">
     <%= f.submit %>
   </div>
