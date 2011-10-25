@@ -1,7 +1,16 @@
 <h2>Question list</h2>
+<%= f.fields_for :questions, @question_list do |builder| %>
+	<%= render 'question_fields', :f => builder %>
+<% end %>
+
+<h2>New question</h2>
+<%= f.fields_for :questions, @question do |builder| %>
+	<%= render 'question_fields', :f => builder %>
+<% end %>
 <div class="actions">
   <%= f.submit 'Add question', :name => 'new_question_button' %>
 </div>
+
 <div class="actions">
   <%= f.submit 'Back', :name => 'back_button' %>
   <%= f.submit 'Publish', :name => 'publish_button' %>

@@ -1,12 +1,10 @@
 class Poll < ActiveRecord::Base
   has_many :questions, :dependent => :destroy
-  # accepts_nested_attributes_for :new_question, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :questions, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   
   CATEGORIES = ['Political Poll', 'Commercial Poll']
   
   attr_writer :current_step
-  #attr_accessor :new_question
-  attr_accessor :new_question_text, :new_question_kind
   
   validates :title, :category, :published_at, :presence => true
   validates :category, :inclusion => CATEGORIES

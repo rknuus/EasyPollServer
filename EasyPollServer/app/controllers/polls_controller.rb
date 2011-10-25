@@ -20,9 +20,8 @@ class PollsController < ApplicationController
 
   # GET /polls/new
   def new
-    session[:poll_params] ||= {}
-    @poll = Poll.new(session[:poll_params])
-    @poll.current_step = session[:poll_step]
+    setup_new_session
+    load_session_variables(false)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,29 +35,23 @@ class PollsController < ApplicationController
 
   # POST /polls
   def create
-    session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
-    @poll = Poll.new(session[:poll_params])
-    @poll.current_step = session[:poll_step]
+    load_session_variables(must_split_last?)
 
     if params[:continue_button]
       @poll.next_step
       show_wizard
-    elsif params[:back_button]
+    elsif params[:back_button] || params[:cancel_button]
       @poll.previous_step
       show_wizard
     elsif params[:new_question_button]
-      @question_index = @poll.questions.count
+      @poll.questions << @question
       @question = Question.new
-      @poll.next_step
-      show_wizard
-    elsif params[:create_question_button]
-      @poll.previous_step
-      show_wizard
-    elsif params[:cancel_button]
-      @poll.previous_step
       show_wizard
     else #params[:publish_button]
+      @poll.questions << @question
       if @poll.save
+        reset_session
+
         respond_to do |format|
           format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
         end
@@ -67,15 +60,7 @@ class PollsController < ApplicationController
       end
     end
   end
-  
-  def show_wizard
-    session[:poll_step] = @poll.current_step
     
-    respond_to do |format|
-      format.html { render action: "new" }
-    end
-  end
-  
   # PUT /polls/1
   def update
     @poll = Poll.find(params[:id])
@@ -111,5 +96,44 @@ class PollsController < ApplicationController
         format.html { redirect_to polls_url }
       end
     end
+  end
+private
+  def show_wizard
+    session[:poll_step] = @poll.current_step
+    session[:new_question] = @question  #FIXME: can we avoid new_question?
+  
+    respond_to do |format|
+      format.html { render action: "new" }
+    end
+  end
+  
+  def reset_session
+    session[:poll_params] = {}
+    session[:new_question] = Question.new
+    @poll = Poll.new
+  end
+  
+  def setup_new_session
+    session[:poll_params] ||= {}
+    session[:new_question] ||= Question.new
+  end
+  
+  def load_session_variables(split_last)
+    session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
+
+    questions = []
+    questions = session[:poll_params]['questions_attributes'].values if session[:poll_params]['questions_attributes']
+    @question = Question.new
+    if split_last
+      @question = Question.new(questions.pop)
+    end
+
+    @poll = Poll.new(session[:poll_params])
+    @poll.current_step = session[:poll_step]
+    @poll.questions = questions.compact.collect { |q| Question.new(q) }
+  end
+  
+  def must_split_last?
+    !params[:new_question_button].nil? || !params[:publish_button].nil?
   end
 end
