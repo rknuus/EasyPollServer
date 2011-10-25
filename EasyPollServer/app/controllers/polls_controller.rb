@@ -48,7 +48,6 @@ class PollsController < ApplicationController
       @question = Question.new
       show_wizard
     else #params[:publish_button]
-      @poll.questions << @question
       if @poll.save
         reset_session
 
@@ -111,6 +110,7 @@ private
     session[:poll_params] = {}
     session[:new_question] = Question.new
     @poll = Poll.new
+    session[:poll_step] = @poll.steps.first
   end
   
   def setup_new_session
