@@ -99,7 +99,6 @@ class PollsController < ApplicationController
 private
   def show_wizard
     session[:poll_step] = @poll.current_step
-    session[:new_question] = @question  #FIXME: can we avoid new_question?
   
     respond_to do |format|
       format.html { render action: "new" }
@@ -108,13 +107,11 @@ private
   
   def reset_session
     session[:poll_params] = {}
-    session[:new_question] = Question.new
     session[:poll_step] = @poll.steps.first
   end
   
   def setup_new_session
     session[:poll_params] ||= {}
-    session[:new_question] ||= Question.new
   end
   
   def load_session_variables(split_last)
