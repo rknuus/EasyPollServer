@@ -109,7 +109,6 @@ private
   def reset_session
     session[:poll_params] = {}
     session[:new_question] = Question.new
-    @poll = Poll.new
     session[:poll_step] = @poll.steps.first
   end
   
