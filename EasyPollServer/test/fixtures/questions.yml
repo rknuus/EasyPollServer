@@ -3,9 +3,9 @@
 one:
   poll_id: 1
   text: MyString
-  kind: MyString
+  kind: 'Yes/No'
 
 two:
   poll_id: 1
   text: MyString
-  kind: MyString
+  kind: 'Yes/No'
