@@ -71,4 +71,54 @@ class PollTest < ActiveSupport::TestCase
     polls(:one).next_step
     assert polls(:one).is_first_step?
   end
+  
+  # test "next_step should be last step" do
+  #   assert_equal polls(:one).steps.last, polls(:one).next_step
+  # test "should proceed to next step" do
+  #   polls(:one).next_step
+  #   assert_not_equal polls(:one).steps.first, polls(:one).current_step
+  # end
+  # 
+  # test "previous_step should be first step" do
+  #   assert_equal polls(:one).steps.first, polls(:one).previous_step
+  # test "should proceed to previous step" do
+  #   polls(:one).next_step
+  #   s1 = polls(:one).current_step
+  #   polls(:one).previous_step
+  #   s2 = polls(:one).current_step
+  #   assert_not_equal s1, s2
+  # end
+  # 
+  # test "should be first step" do
+  #   assert polls(:one).first_step?
+  # test "previous step should undo next step" do
+  #   s1 = polls(:one).current_step
+  #   polls(:one).next_step
+  #   polls(:one).previous_step
+  #   s2 = polls(:one).current_step
+  #   assert_equal s1, s2
+  # end
+  # 
+  # test "should not be first step" do
+  #   polls(:one).next_step
+  #   assert !polls(:one).first_step?
+  # test "initially is first step" do
+  #   assert polls(:one).is_first_step?
+  # end
+  # 
+  # test "should be last step" do
+  #   polls(:one).next_step
+  #   assert polls(:one).last_step?
+  # test "initially is not last step" do
+  #   assert !polls(:one).is_last_step?
+  # end
+  # 
+  # test "should not be last step" do
+  #   assert !polls(:one).last_step?
+  # test "next step should wrap around" do
+  #   polls(:one).next_step
+  #   polls(:one).next_step
+  #   polls(:one).next_step
+  #   assert polls(:one).is_first_step?
+  # end
 end

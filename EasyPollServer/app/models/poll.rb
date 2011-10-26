@@ -9,6 +9,7 @@ class Poll < ActiveRecord::Base
   validates :title, :category, :published_at, :presence => true
   validates :category, :inclusion => CATEGORIES
   #FIXME: should title be unique?!
+  #FIXME: validate_numericality_of questions.count > 0, :if => lambda { |p| p.current_step = p.steps.last
   
   after_initialize :initialize_published_at
   
@@ -25,8 +26,8 @@ class Poll < ActiveRecord::Base
   end
   
   def next_step
-     self.current_step = steps[steps.index(current_step)+1]
-   end
+    self.current_step = steps[steps.index(current_step)+1]
+  end
   
   def previous_step
     self.current_step = steps[steps.index(current_step)-1]
