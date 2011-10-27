@@ -12,4 +12,4 @@ Easy Poll Server collects all answers. The poll initiator can close a poll
 and download the results.
 
 The project is subject of an assignment. Further the authors get familiar
-with Ruby on Rails.
+with Ruby on Rails and experiment with TDD.
