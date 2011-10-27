@@ -11,33 +11,33 @@
     </div>
   <% end %>
 
-	<h2>Poll information</h2>
 	<div class="field">
-	  <%= f.label :title %><br />
+	  <%= f.label "Poll title" %><br />
 	  <%= f.text_field :title %>
 	</div>
 	<div class="field">
-	  <%= f.label :category %><br />
+	  <%= f.label "Poll category" %><br />
 	  <%= f.select :category, Poll::CATEGORIES, :prompt => 'Select a category' %>
 	</div>
 
 	<h2>Question list</h2>
+	<% @question_index = 0 %>
 	<%= f.fields_for :questions, @question_list do |builder| %>
+		<% @question_index += 1 %>
 		<%= render 'question_fields', :f => builder %>
 	<% end %>
 
 	<h2>New question</h2>
 	<%= f.fields_for :questions, @question do |builder| %>
+		<% @question_index += 1 %>
 		<%= render 'question_fields', :f => builder %>
 	<% end %>
 	<div class="actions">
 	  <%= f.submit 'Add question', :name => 'new_question_button' %>
 	</div>
 
-	 <div class="actions">
-	   <%= f.submit 'Cancel', :name => 'cancel_button' %>
-	 </div>
-	 <div class="actions">
-	   <%= f.submit 'Publish' %>
-	 </div>
+	<div class="actions">
+	  <%= f.submit 'Cancel', :name => 'cancel_button' %>
+	  <%= f.submit 'Publish' %>
+	</div>
 <% end %>
