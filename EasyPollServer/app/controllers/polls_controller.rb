@@ -37,16 +37,18 @@ class PollsController < ApplicationController
   def create
     load_session_variables(must_split_last?)
 
-    if params[:continue_button]
-      @poll.next_step
-      show_wizard
-    elsif params[:back_button] || params[:cancel_button]
-      @poll.previous_step
-      show_wizard
+    if params[:cancel_button]
+      reset_session
+
+      respond_to do |format|
+        format.html { redirect_to @poll }
+      end
     elsif params[:new_question_button]
       @poll.questions << @question
       @question = Question.new
-      show_wizard
+      
+      rerender_new
+    #FIXME: process remove request
     else #params[:publish_button]
       if @poll.save
         reset_session
@@ -55,7 +57,7 @@ class PollsController < ApplicationController
           format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
         end
       else
-        show_wizard
+        rerender_new
       end
     end
   end
@@ -97,17 +99,14 @@ class PollsController < ApplicationController
     end
   end
 private
-  def show_wizard
-    session[:poll_step] = @poll.current_step
-  
+  def rerender_new
     respond_to do |format|
       format.html { render action: "new" }
     end
   end
-  
+
   def reset_session
     session[:poll_params] = {}
-    session[:poll_step] = @poll.steps.first
   end
   
   def setup_new_session
@@ -125,7 +124,6 @@ private
     end
 
     @poll = Poll.new(session[:poll_params])
-    @poll.current_step = session[:poll_step]
     @poll.questions = questions.compact.collect { |q| Question.new(q) }
   end
   
