@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class PollsControllerTest < ActionController::TestCase
-  setup do
-    @poll = create_valid_poll
-  end
-
   test "should get index" do
     get :index
     assert_response :success
@@ -18,41 +14,51 @@ class PollsControllerTest < ActionController::TestCase
   end
 
   test "should create poll" do
+    poll = create_valid_poll
     assert_difference('Poll.count') do
       get :new
-      post :create, poll: @poll.attributes
+      post :create, poll: poll.attributes
     end
 
     assert_redirected_to poll_path(assigns(:poll))
   end
 
   test "should show poll" do
-    get :show, id: @poll.to_param
+    get :show, id: create_valid_poll.to_param
     assert_response :success
   end
 
   test "should destroy poll" do
+    poll = create_valid_poll
     assert_difference('Poll.count', -1) do
-      delete :destroy, id: @poll.to_param
+      delete :destroy, id: poll.to_param
     end
 
     assert_redirected_to polls_path
   end
   
   test "should close poll" do
-    put :close, id: @poll.to_param, poll: @poll.attributes
+    poll = create_valid_poll
+    put :close, id: poll.to_param, poll: poll.attributes
 
     assert_redirected_to polls_path
   end
 
   test "should cancel poll" do
+    poll = create_valid_poll
     assert_no_difference('Poll.count') do
       get :new
-      post :create, id: @poll.to_param, :cancel_button => 'Cancel'
+      post :create, id: poll.to_param, :cancel_button => 'Cancel'
     end
 
     assert_redirected_to polls_path
   end
+  
+  # test "should create poll with two questions" do
+  #   get :new
+  #   post :create, id: @poll.to_param, :new_question_button => 'New question'
+  #   post :create, poll: @poll.attributes
+  # end
   
   # test "should reject publish if no poll title" do  # and category
   #   assert_no_difference('Poll.count') do
