@@ -1,10 +1,4 @@
 EasyPollServer::Application.routes.draw do
-  resources :questions
-
-  # resources :polls do
-  #   put :close, :on => :member
-  # end
-  
   resources :polls do
     member do
       put 'close'
