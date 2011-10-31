@@ -28,11 +28,6 @@ class PollsController < ApplicationController
     end
   end
 
-  # GET /polls/1/edit
-  def edit
-    @poll = Poll.find(params[:id])
-  end
-
   # POST /polls
   def create
     load_session_variables(must_split_last?)
@@ -62,19 +57,6 @@ class PollsController < ApplicationController
     end
   end
     
-  # PUT /polls/1
-  def update
-    @poll = Poll.find(params[:id])
-
-    respond_to do |format|
-      if @poll.update_attributes(params[:poll])
-        format.html { redirect_to @poll, notice: 'Poll was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
-    end
-  end
-
   # DELETE /polls/1
   def destroy
     @poll = Poll.find(params[:id])

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>app/views/polls/_question_fields.html.erb</string>
+	<string>app/views/polls/show.html.erb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -29,10 +29,10 @@
 		<dict>
 			<key>filename</key>
 			<string>config.ru</string>
+			<key>lastUsed</key>
+			<date>2011-10-31T14:58:39Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>db</string>
 			<key>regexFolderFilter</key>
@@ -52,7 +52,7 @@
 			<key>filename</key>
 			<string>Gemfile</string>
 			<key>lastUsed</key>
-			<date>2011-10-20T22:11:12Z</date>
+			<date>2011-10-31T14:59:20Z</date>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -73,6 +73,8 @@
 		<dict>
 			<key>filename</key>
 			<string>Rakefile</string>
+			<key>lastUsed</key>
+			<date>2011-10-31T14:59:34Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -81,6 +83,8 @@
 			<date>2011-10-27T21:46:27Z</date>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>script</string>
 			<key>regexFolderFilter</key>
@@ -116,98 +120,84 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>9</integer>
+				<integer>5</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
-		<key>app/models/poll.rb</key>
+		<key>app/views/polls/show.html.erb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>0</integer>
-				<key>line</key>
-				<integer>17</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>app/models/question.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>43</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>app/views/polls/_form.html.erb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>20</integer>
 				<key>line</key>
 				<integer>31</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>7</integer>
+			<integer>0</integer>
 		</dict>
-		<key>app/views/polls/_question_fields.html.erb</key>
+		<key>config/routes.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>39</integer>
+				<integer>68</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>1</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>test/unit/poll_test.rb</key>
+		<key>test/functional/polls_controller_test.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>33</integer>
 				<key>line</key>
 				<integer>29</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>4</integer>
+				<key>line</key>
+				<integer>29</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>29</integer>
+			</dict>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>app/models/poll.rb</string>
-		<string>test/unit/poll_test.rb</string>
-		<string>app/models/question.rb</string>
+		<string>test/functional/polls_controller_test.rb</string>
 		<string>app/controllers/polls_controller.rb</string>
-		<string>app/views/polls/_question_fields.html.erb</string>
-		<string>app/views/polls/_form.html.erb</string>
+		<string>app/views/polls/show.html.erb</string>
+		<string>config/routes.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{280, 55}, {972, 650}}</string>
+	<string>{{436, 60}, {972, 650}}</string>
 </dict>
 </plist>
