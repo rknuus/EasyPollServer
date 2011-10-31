@@ -55,9 +55,24 @@ class PollsControllerTest < ActionController::TestCase
   end
   
   # test "should create poll with two questions" do
+  #   poll = create_valid_poll
   #   get :new
-  #   post :create, id: @poll.to_param, :new_question_button => 'New question'
-  #   post :create, poll: @poll.attributes
+  #   poll.questions << Question.create(:text => 'why not?', :kind => Question::KINDS.first)
+  #   {
+  #     "utf8"=>"✓",
+  #     "authenticity_token"=>"d5x4cSYakiZuduLJdlidM1TCudLjad6p1P6u4VMQYZE=",
+  #     "poll"=>{
+  #       "title"=>"P105",
+  #       "category"=>"Political Poll",
+  #       "questions_attributes"=>{
+  #         "0"=>{"text"=>"Q1", "kind"=>"Yes/No"}
+  #       }
+  #     },
+  #     "new_question_button"=>"Add question"
+  #   }
+  #   
+  #   post :create, id: poll.to_param, :new_question_button => 'Add question', :poll => {}
+  #   post :create, poll: poll.attributes
   # end
   
   # test "should reject publish if no poll title" do  # and category
