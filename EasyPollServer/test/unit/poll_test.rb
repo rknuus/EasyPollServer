@@ -16,7 +16,7 @@ class PollTest < ActiveSupport::TestCase
   end
   
   test "should be valid if all attributes defined" do
-    poll = create_valid_poll
+    poll = new_valid_poll
     assert poll.valid?
   end
   
@@ -27,7 +27,7 @@ class PollTest < ActiveSupport::TestCase
   end
   
   test "should close poll" do
-    poll = create_valid_poll
+    poll = new_valid_poll
     poll.close
     assert !poll.closed_at.nil?
   end

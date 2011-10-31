@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PollsControllerTest < ActionController::TestCase
   setup do
-    @poll = polls(:one)
+    @poll = create_valid_poll
   end
 
   test "should get index" do
@@ -50,14 +50,28 @@ class PollsControllerTest < ActionController::TestCase
   end
   
   test "should close poll" do
-    #FIXME: assert_difference('Poll.closed_at', ???)
-    # assert_not_nil assigns(:active_polls)
-    # assert_not_nil assigns(:closed_polls)
-    # 
-    # assert_difference('Poll.count') do
-    #   post :create, poll: @poll.attributes
-    # end
     put :close, id: @poll.to_param, poll: @poll.attributes
+
     assert_redirected_to polls_path
   end
+
+  test "should cancel poll" do
+    assert_no_difference('Poll.count') do
+      get :new
+      post :create, id: @poll.to_param, :cancel_button => 'Cancel'
+    end
+
+    assert_redirected_to polls_path
+  end
+  
+  # test "should reject publish if no poll title" do  # and category
+  #   assert_no_difference('Poll.count') do
+  #     poll = @poll.dup
+  #     poll.title = ''
+  #     get :new
+  #     post :create, poll: poll.attributes, :cancel_button => 'Cancel'
+  #   end
+  # 
+  #   assert_redirected_to poll_path(assigns(:poll))
+  # end
 end
