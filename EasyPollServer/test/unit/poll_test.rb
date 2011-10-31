@@ -2,29 +2,29 @@ require 'test_helper'
 
 class PollTest < ActiveSupport::TestCase
   test "initially published_at set" do
-    p = Poll.create
-    assert !p.published_at.nil?
+    poll = Poll.new
+    assert !poll.published_at.nil?
   end
 
   test "invalid if missing attributes" do
-    p = Poll.create
-    p.published_at = nil
-    assert p.invalid?
-    assert p.errors[:title].any?
-    assert p.errors[:published_at].any?
-    assert p.errors[:category].any?
+    poll = Poll.new
+    poll.published_at = nil
+    assert poll.invalid?
+    assert poll.errors[:title].any?
+    assert poll.errors[:published_at].any?
+    assert poll.errors[:category].any?
   end
   
   test "whitelist category" do
-    p = polls(:one).dup
-    p.category = 'Absolutely Positively Surely Not Existing Category'
-    assert p.invalid?
-    assert p.errors[:category].any?
+    poll = polls(:one).dup
+    poll.category = 'Absolutely Positively Surely Not Existing Category'
+    assert poll.invalid?
+    assert poll.errors[:category].any?
   end
   
   test "should close poll" do
-    p = polls(:one).dup
-    p.close
-    assert !p.closed_at.nil?
+    poll = polls(:one).dup
+    poll.close
+    assert !poll.closed_at.nil?
   end
 end
