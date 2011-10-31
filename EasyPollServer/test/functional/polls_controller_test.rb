@@ -31,16 +31,6 @@ class PollsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @poll.to_param
-    assert_response :success
-  end
-
-  test "should update poll" do
-    put :update, id: @poll.to_param, poll: @poll.attributes
-    assert_redirected_to poll_path(assigns(:poll))
-  end
-
   test "should destroy poll" do
     assert_difference('Poll.count', -1) do
       delete :destroy, id: @poll.to_param
