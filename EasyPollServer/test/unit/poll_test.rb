@@ -31,10 +31,4 @@ class PollTest < ActiveSupport::TestCase
     poll.close
     assert !poll.closed_at.nil?
   end
-  
-private
-  #FIXME: move to test helper
-  def create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
-    Poll.new(:title => title, :category => category)
-  end
 end

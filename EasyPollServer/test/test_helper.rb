@@ -10,4 +10,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
+    Poll.new(:title => title, :category => category)
+  end
 end
