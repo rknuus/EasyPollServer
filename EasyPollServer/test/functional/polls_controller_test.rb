@@ -64,14 +64,13 @@ class PollsControllerTest < ActionController::TestCase
     #FIXME: assert_redirected_to poll_path(assigns(:poll))
   end
   
-  # test "should reject publish if no poll title" do  # and category
-  #   assert_no_difference('Poll.count') do
-  #     poll = @poll.dup
-  #     poll.title = ''
-  #     get :new
-  #     post :create, poll: poll.attributes, :cancel_button => 'Cancel'
-  #   end
-  # 
-  #   assert_redirected_to poll_path(assigns(:poll))
+  # test "at first new poll should have only one empty question" do
+  #   #FIXME: 
+  #   # poll = new_valid_poll
+  #   # get :new
+  #   # post :create, id: poll.to_param, poll: poll.attributes
+  # end
+  
+  # test "publishing without any question should fail" do
   # end
 end
