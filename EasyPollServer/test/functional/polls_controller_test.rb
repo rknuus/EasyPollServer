@@ -54,26 +54,6 @@ class PollsControllerTest < ActionController::TestCase
     assert_redirected_to polls_path
   end
   
-  test "new question should not create poll" do
-    poll = new_valid_poll
-    get :new
-    poll.questions << Question.create(:text => 'why not?', :kind => Question::KINDS.first)
-    post :create, id: poll.to_param, poll: poll.attributes, :new_question_button => 'Add question'
-    assert_raise(ActiveRecord::RecordNotFound) { Poll.find(poll.id) }
-
-    #FIXME: assert_redirected_to poll_path(assigns(:poll))
-  end
-  
-  # test "at first new poll should have only one empty question" do
-  #   #FIXME: 
-  #   # poll = new_valid_poll
-  #   # get :new
-  #   # post :create, id: poll.to_param, poll: poll.attributes
-  # end
-  
-  # test "publishing without any question should fail" do
-  # end
-  
   #FIXME: test story poll creation and closing
   # Alice gets a list of all open polls
   # Alice logs in
