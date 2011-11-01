@@ -11,5 +11,6 @@
     </div>
   <% end %>
 
+	<%-# Calls _create_poll_step.html.erb or _question_list_step.html.erb file -%>
 	<%= render "#{@poll.current_step}_step", :f => f %>
 <% end %>
