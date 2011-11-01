@@ -14,7 +14,7 @@ class PollsControllerTest < ActionController::TestCase
   end
 
   test "should create poll" do
-    poll = create_valid_poll
+    poll = new_valid_poll
     assert_difference('Poll.count') do
       get :new
       post :create, poll: poll.attributes
