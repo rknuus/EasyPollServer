@@ -35,3 +35,7 @@ group :test do
   gem 'minitest', '>= 2.6.2'
   gem 'turn', :require => false
 end
+
+group :development, :test do
+  gem 'rspec-rails'
+end
