@@ -21,7 +21,7 @@ class PollsController < ApplicationController
   # GET /polls/new
   def new
     setup_new_session
-    load_session_variables(false)
+    load_session_variables
 
     respond_to do |format|
       format.html # new.html.erb
@@ -30,7 +30,8 @@ class PollsController < ApplicationController
 
   # POST /polls
   def create
-    load_session_variables(must_split_last?)
+    load_session_variables
+    @question = @poll.questions.pop || Question.new
 
     if params[:cancel_button]
       reset_session
@@ -47,6 +48,7 @@ class PollsController < ApplicationController
       rerender_new
     #FIXME: process remove request
     else #params[:publish_button]
+      @poll.questions << @question if @question.valid?
       if @poll.save
         reset_session
 
@@ -82,6 +84,7 @@ class PollsController < ApplicationController
       end
     end
   end
+  
 private
   def rerender_new
     respond_to do |format|
@@ -97,21 +100,13 @@ private
     session[:poll_params] ||= {}
   end
   
-  def load_session_variables(split_last)
+  def load_session_variables()
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
 
+    @poll = Poll.new(session[:poll_params])
     questions = []
     questions = session[:poll_params]['questions_attributes'].values if session[:poll_params]['questions_attributes']
-    @question = Question.new
-    if split_last
-      @question = Question.new(questions.pop)
-    end
-
-    @poll = Poll.new(session[:poll_params])
     @poll.questions = questions.compact.collect { |q| Question.new(q) }
-  end
-  
-  def must_split_last?
-    !params[:new_question_button].nil? || !params[:publish_button].nil?
+    @question = Question.new
   end
 end
