@@ -1,0 +1,9 @@
+== 0.0.2, 2011-11-02
+change: renamed repository.
+        !!!Requires update of git remote URL!!!
+        e.g. <code>git config --local remote.origin.url "git@github.com:<you>/EasyPollServer.git"</code>
+change: removed subfolder EasyPollServer
+change: use new gems rspec-rails, capybara and launchy.
+        !!!Requires <code>bundle</code>
+add:    RSpec based integration tests
+change: use single page to create a poll instead of a wizard with 3 steps
