@@ -104,9 +104,10 @@ private
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
 
     @poll = Poll.new(session[:poll_params])
-    questions = []
-    questions = session[:poll_params]['questions_attributes'].values if session[:poll_params]['questions_attributes']
-    @poll.questions = questions.compact.collect { |q| Question.new(q) }
+    @poll.questions = []
+    if session[:poll_params]['questions_attributes']
+      @poll.questions = session[:poll_params]['questions_attributes'].values.compact.collect { |q| Question.new(q) }
+    end
     @question = Question.new
   end
 end
