@@ -39,9 +39,11 @@ class PollsController < ApplicationController
         format.html { redirect_to @poll }
       end
     elsif params[:new_question_button]
-      @poll.questions << @question
-      @question = Question.new
-      
+      if @question.valid?
+        @poll.questions << @question
+        @question = Question.new
+      end
+
       rerender_new
     #FIXME: process remove request
     else #params[:publish_button]

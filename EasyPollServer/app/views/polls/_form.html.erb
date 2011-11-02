@@ -1,10 +1,13 @@
 <%= form_for(@poll) do |f| %>
-  <% if @poll.errors.any? %>
+  <% if @poll.errors.any? || @question.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@poll.errors.count, "error") %> prohibited this poll from being saved:</h2>
+      <h2><%= pluralize(@poll.errors.count + @question.errors.count, "error") %> prohibited this poll from being saved:</h2>
 
       <ul>
       <% @poll.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      <% @question.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

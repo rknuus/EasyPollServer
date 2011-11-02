@@ -39,4 +39,5 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'launchy'  #required for save_and_open_page
 end

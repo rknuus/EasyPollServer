@@ -1,7 +1,8 @@
 <h3>Question <%= @question_index %></h3>
 <div class="field">
   <%= f.label "question text" %><br />
-  <%= f.text_field :text %>
+  <% field_class = get_question_field_class(:text) %>
+  <span class="<%= field_class %>"><%= f.text_field :text %></span>
 </div>
 <div class="field">
   <%= f.label "question kind" %><br />
