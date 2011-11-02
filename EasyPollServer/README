@@ -13,3 +13,8 @@ and download the results.
 
 The project is subject of an assignment. Further the authors get familiar
 with Ruby on Rails and experiment with TDD.
+
+== Setup/Update
+
+* run <code>bundle</code> to install all required gems
+* run <code>rake db:migrate</code> to setup the DB
