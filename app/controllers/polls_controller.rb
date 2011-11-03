@@ -1,8 +1,8 @@
 class PollsController < ApplicationController
   # GET /polls
   def index
-    @active_polls = Poll.find(:all, :conditions => 'closed_at IS NULL')
-    @closed_polls = Poll.find(:all, :conditions => 'closed_at IS NOT NULL')
+    @active_polls = Poll.get_active_polls
+    @closed_polls = Poll.get_closed_polls
 
     respond_to do |format|
       format.html # index.html.erb
