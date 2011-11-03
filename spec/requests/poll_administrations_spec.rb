@@ -64,10 +64,16 @@ describe "Poll administration" do
   end
   
   describe "GET/PUT/POST new poll" do
-    it "should have only a single question at first" do
+    it "should initially have only a single question" do
       visit new_poll_path
       page.should have_content('Question 1')
       page.should_not have_content('Question 2')
+    end
+    
+    it "should cancel new poll" do
+      visit new_poll_path
+      click_button 'Cancel'
+      page.should have_content('Active polls')
     end
   
     it "should fail to add new question and not append question when empty" do
