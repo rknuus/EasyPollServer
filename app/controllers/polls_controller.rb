@@ -33,13 +33,13 @@ class PollsController < ApplicationController
     load_session_variables
     @question = @poll.questions.pop || Question.new
 
-    if params[:cancel_button]
+    if was_button_pressed(:cancel_button)
       reset_session
 
       respond_to do |format|
         format.html { redirect_to @poll }
       end
-    elsif params[:new_question_button]
+    elsif was_button_pressed(:new_question_button)
       if @question.valid?
         @poll.questions << @question
         @question = Question.new
@@ -47,7 +47,7 @@ class PollsController < ApplicationController
 
       rerender_new
     #FIXME: process remove request
-    else #params[:publish_button]
+    else #was_button_pressed(:publish_button)
       @poll.questions << @question if @question.valid?
       if @poll.save
         reset_session
@@ -109,5 +109,9 @@ private
       @poll.questions = session[:poll_params]['questions_attributes'].values.compact.collect { |q| Question.new(q) }
     end
     @question = Question.new
+  end
+  
+  def was_button_pressed(button)
+    params[button]
   end
 end
