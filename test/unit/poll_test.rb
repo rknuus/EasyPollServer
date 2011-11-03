@@ -31,4 +31,37 @@ class PollTest < ActiveSupport::TestCase
     poll.close
     assert !poll.closed_at.nil?
   end
+  
+  test "initially should return no closed polls" do
+    polls = Poll.get_closed_polls
+    assert_equal 0, polls.count
+  end
+  
+  test "should return no closed polls when creating only open polls" do
+    create_and_save_poll
+    create_and_save_poll
+    polls = Poll.get_closed_polls
+    assert_equal 0, polls.count
+  end
+  
+  test "should return one closed poll" do
+    poll = create_close_and_save_poll
+    polls = Poll.get_closed_polls
+    assert_equal 1, polls.count
+    assert_equal poll, polls.first
+  end
+  
+private
+  def create_and_save_poll
+    poll = create_valid_poll
+    poll.save
+    poll
+  end
+  
+  def create_close_and_save_poll
+    poll = create_valid_poll
+    poll.close
+    poll.save
+    poll
+  end
 end
