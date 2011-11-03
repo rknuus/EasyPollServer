@@ -46,7 +46,6 @@ class PollsController < ApplicationController
       end
 
       rerender_new
-    #FIXME: process remove request
     else #was_button_pressed(:publish_button)
       @poll.questions << @question if @question.valid?
       if @poll.save
