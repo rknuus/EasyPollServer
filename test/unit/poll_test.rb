@@ -37,7 +37,7 @@ class PollTest < ActiveSupport::TestCase
     assert_equal 0, polls.count
   end
   
-  test "should return no closed polls when creating only open polls" do
+  test "should return no closed polls when creating only active polls" do
     create_and_save_poll
     create_and_save_poll
     polls = Poll.get_closed_polls
@@ -49,6 +49,28 @@ class PollTest < ActiveSupport::TestCase
     polls = Poll.get_closed_polls
     assert_equal 1, polls.count
     assert_equal poll, polls.first
+  end
+  
+  test "initially should return no active polls" do
+    Poll.delete_all  #FIXME: why is there an already existing poll???
+    polls = Poll.get_active_polls
+    assert_equal 0, polls.count
+  end
+  
+  test "should return one active poll" do
+    Poll.delete_all  #FIXME: why is there an already existing poll???
+    poll = create_and_save_poll
+    polls = Poll.get_active_polls
+    assert_equal 1, polls.count
+    assert_equal poll, polls.first
+  end
+  
+  test "should return no active polls when creating only closed polls" do
+    Poll.delete_all  #FIXME: why is there an already existing poll???
+    create_close_and_save_poll
+    create_close_and_save_poll
+    polls = Poll.get_active_polls
+    assert_equal 0, polls.count
   end
   
 private
