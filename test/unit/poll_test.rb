@@ -13,6 +13,7 @@ class PollTest < ActiveSupport::TestCase
     assert poll.errors[:title].any?
     assert poll.errors[:published_at].any?
     assert poll.errors[:category].any?
+    assert poll.errors[:base].any?
   end
   
   test "should be valid if all attributes defined" do

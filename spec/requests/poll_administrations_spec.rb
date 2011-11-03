@@ -2,11 +2,15 @@ require 'spec_helper'
 
 module TestHelper #FIXME: merge with unit test_helper.rb
   def self.create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
-    Poll.create(:title => title, :category => category)
+    poll = Poll.create(:title => title, :category => category)
+    poll.questions << new_valid_question
+    poll
   end
 
   def self.new_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
-    Poll.new(:title => title, :category => category)
+    poll = Poll.new(:title => title, :category => category)
+    poll.questions << new_valid_question
+    poll
   end
 
   def self.create_and_save_poll
@@ -20,6 +24,10 @@ module TestHelper #FIXME: merge with unit test_helper.rb
     poll.close
     poll.save
     poll
+  end
+  
+  def self.new_valid_question
+    Question.new(:text => 'why not?', :kind => Question::KINDS.first)
   end
 end
 
@@ -93,12 +101,20 @@ describe "Poll administration" do
       page.should have_content('Question 2')
     end
 
-    it "should fail when publishing without title and category" do
+    it "should fail to publish without title and category" do
       visit new_poll_path
       click_button 'Publish'
       page.should have_content("Title can't be blank")
       page.should have_content("Category can't be blank")
       page.should have_xpath("//div[@class='field_with_errors']")
+    end
+    
+    it "should fail to publish with empty question list" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'
+      select Poll::CATEGORIES.first, :from => 'poll_category'
+      click_button 'Publish'
+      page.should have_content('Poll must have at least 1 question')
     end
   end
 end

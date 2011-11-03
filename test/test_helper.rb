@@ -8,11 +8,15 @@ require 'capybara/rspec'
 
 class ActiveSupport::TestCase
   def create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
-    Poll.create(:title => title, :category => category)
+    poll = Poll.create(:title => title, :category => category)
+    poll.questions << new_valid_question
+    poll
   end
 
   def new_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
-    Poll.new(:title => title, :category => category)
+    poll = Poll.new(:title => title, :category => category)
+    poll.questions << new_valid_question
+    poll
   end
 
   def create_and_save_poll
@@ -26,6 +30,10 @@ class ActiveSupport::TestCase
     poll.close
     poll.save
     poll
+  end
+  
+  def new_valid_question
+    Question.new(:text => 'why not?', :kind => Question::KINDS.first)
   end
 
   include Capybara::DSL
