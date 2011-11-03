@@ -1,5 +1,28 @@
 require 'spec_helper'
 
+module TestHelper #FIXME: merge with unit test_helper.rb
+  def self.create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
+    Poll.create(:title => title, :category => category)
+  end
+
+  def self.new_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
+    Poll.new(:title => title, :category => category)
+  end
+
+  def self.create_and_save_poll
+    poll = create_valid_poll
+    poll.save
+    poll
+  end
+  
+  def self.create_close_and_save_poll
+    poll = create_valid_poll
+    poll.close
+    poll.save
+    poll
+  end
+end
+
 describe "Poll administration" do
   it "should initially have no active and closed polls" do
     visit polls_path
@@ -11,6 +34,14 @@ describe "Poll administration" do
     visit polls_path
     click_link 'Create poll'
     page.should have_content('New question')
+  end
+  
+  it "should have one active and one closed poll" do
+    TestHelper.create_and_save_poll
+    TestHelper.create_close_and_save_poll
+    visit polls_path
+    page.should_not have_content('Found no active polls.')
+    page.should_not have_content('Found no closed polls.')
   end
   
   it "should have only a single question at first" do
