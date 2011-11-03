@@ -1,4 +1,4 @@
-== 0.0.2, 2011-11-02
+== A.6, 2011-11-02
 change: renamed repository.
         !!!Requires update of git remote URL!!!
         e.g. <code>git config --local remote.origin.url "git@github.com:<you>/EasyPollServer.git"</code>
