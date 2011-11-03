@@ -44,6 +44,23 @@ describe "Poll administration" do
     page.should_not have_content('Found no closed polls.')
   end
   
+  #FIXME: how to test Cancel close?
+  it "should close poll" do
+    TestHelper.create_and_save_poll
+    visit polls_path
+    click_button 'Close poll'
+    page.should have_content('Found no active polls.')
+    page.should_not have_content('Found no closed polls.')
+  end
+  
+  #FIXME: how to test Cancel delete?
+  it "should delete poll" do
+    TestHelper.create_close_and_save_poll
+    visit polls_path
+    click_button 'Delete poll'
+    page.should have_content('Found no closed polls.')
+  end
+  
   it "should have only a single question at first" do
     visit new_poll_path
     page.should have_content('Question 1')
