@@ -66,7 +66,7 @@ class PollsController < ApplicationController
     @poll.destroy
 
     respond_to do |format|
-      format.html { redirect_to polls_url, notice: 'Poll was successfully deleted.' }
+      format.html { redirect_to polls_url }  #FIXME: notice: 'Poll was successfully deleted.' or not?
     end
   end
 
@@ -77,7 +77,7 @@ class PollsController < ApplicationController
 
     respond_to do |format|
       if @poll.save
-        format.html { redirect_to polls_url, notice: 'Poll was successfully closed.' }
+        format.html { redirect_to polls_url } #FIXME: notice: 'Poll was successfully closed.' or not?
       else
         format.html { redirect_to polls_url }
       end
