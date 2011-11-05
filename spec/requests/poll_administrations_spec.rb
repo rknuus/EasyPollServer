@@ -80,6 +80,7 @@ describe "Poll administration" do
       click_button 'Close poll'
       should_have_no_active_polls
       should_have_closed_polls
+      page.should have_content('Poll was successfully closed.')
     end
   
     #FIXME: how to test Cancel delete?
@@ -88,6 +89,7 @@ describe "Poll administration" do
       visit polls_path
       click_button 'Delete poll'
       should_have_no_closed_polls
+      page.should have_content('Poll was successfully deleted.')
     end
   end
   

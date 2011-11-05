@@ -66,7 +66,7 @@ class PollsController < ApplicationController
     @poll.destroy
 
     respond_to do |format|
-      format.html { redirect_to polls_url }
+      format.html { redirect_to polls_url, notice: 'Poll was successfully deleted.' }
     end
   end
 
