@@ -1,33 +1,53 @@
 require 'spec_helper'
 
 module TestHelper #FIXME: merge with unit test_helper.rb
-  def self.create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
+  def create_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
     poll = Poll.create(:title => title, :category => category)
     poll.questions << new_valid_question
     poll
   end
 
-  def self.new_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
+  def new_valid_poll(title = '2b|!2b?', category = Poll::CATEGORIES.first)
     poll = Poll.new(:title => title, :category => category)
     poll.questions << new_valid_question
     poll
   end
 
-  def self.create_and_save_poll
+  def create_and_save_poll
     poll = create_valid_poll
     poll.save
     poll
   end
   
-  def self.create_close_and_save_poll
+  def create_close_and_save_poll
     poll = create_valid_poll
     poll.close
     poll.save
     poll
   end
   
-  def self.new_valid_question
+  def new_valid_question
     Question.new(:text => 'why not?', :kind => Question::KINDS.first)
+  end
+  
+  def should_have_active_polls
+    page.should have_content('Active polls')
+    page.should_not have_content('Found no active polls.')
+  end
+  
+  def should_have_no_active_polls
+    page.should have_content('Active polls')
+    page.should have_content('Found no active polls.')
+  end
+  
+  def should_have_closed_polls
+    page.should have_content('Closed polls')
+    page.should_not have_content('Found no closed polls.')
+  end
+  
+  def should_have_no_closed_polls
+    page.should have_content('Closed polls')
+    page.should have_content('Found no closed polls.')
   end
 end
 
@@ -35,10 +55,8 @@ describe "Poll administration" do
   describe "GET / polls" do
     it "should initially have no active and closed polls" do
       visit polls_path
-      page.should have_content('Active polls')
-      page.should have_content('Found no active polls.')
-      page.should have_content('Closed polls')
-      page.should have_content('Found no closed polls.')
+      should_have_no_active_polls
+      should_have_no_closed_polls
     end
   
     it "should open create poll page" do
@@ -48,33 +66,28 @@ describe "Poll administration" do
     end
   
     it "should have one active and one closed poll" do
-      TestHelper.create_and_save_poll
-      TestHelper.create_close_and_save_poll
+      create_and_save_poll
+      create_close_and_save_poll
       visit polls_path
-      page.should have_content('Active polls')  #FIXME: factor out
-      page.should_not have_content('Found no active polls.')  #FIXME: factor out
-      page.should have_content('Closed polls')  #FIXME: factor out
-      page.should_not have_content('Found no closed polls.')  #FIXME: factor out
+      should_have_active_polls
+      should_have_closed_polls
     end
   
     #FIXME: how to test Cancel close?
     it "should close poll" do
-      TestHelper.create_and_save_poll
+      create_and_save_poll
       visit polls_path
       click_button 'Close poll'
-      page.should have_content('Active polls')  #FIXME: factor out
-      page.should have_content('Found no active polls.')
-      page.should have_content('Closed polls')  #FIXME: factor out
-      page.should_not have_content('Found no closed polls.')
+      should_have_no_active_polls
+      should_have_closed_polls
     end
   
     #FIXME: how to test Cancel delete?
     it "should delete poll" do
-      TestHelper.create_close_and_save_poll
+      create_close_and_save_poll
       visit polls_path
       click_button 'Delete poll'
-      page.should have_content('Closed polls')  #FIXME: factor out
-      page.should have_content('Found no closed polls.')
+      should_have_no_closed_polls
     end
   end
   
@@ -88,7 +101,7 @@ describe "Poll administration" do
     it "should cancel new poll" do
       visit new_poll_path
       click_button 'Cancel'
-      page.should have_content('Active polls')
+      should_have_no_active_polls
     end
   
     it "should fail to add new question and not append question when empty" do
@@ -132,10 +145,11 @@ describe "Poll administration" do
       select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
       click_button 'Publish'
       page.should have_content('Poll was successfully created.')
-      page.should have_content('Active polls')
-      page.should_not have_content('Found no active polls.')
+      should_have_active_polls
     end
   end
+  
+  include TestHelper
 end
 
 
