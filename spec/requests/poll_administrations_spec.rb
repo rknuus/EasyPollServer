@@ -35,7 +35,9 @@ describe "Poll administration" do
   describe "GET / polls" do
     it "should initially have no active and closed polls" do
       visit polls_path
+      page.should have_content('Active polls')
       page.should have_content('Found no active polls.')
+      page.should have_content('Closed polls')
       page.should have_content('Found no closed polls.')
     end
   
@@ -49,8 +51,10 @@ describe "Poll administration" do
       TestHelper.create_and_save_poll
       TestHelper.create_close_and_save_poll
       visit polls_path
-      page.should_not have_content('Found no active polls.')
-      page.should_not have_content('Found no closed polls.')
+      page.should have_content('Active polls')  #FIXME: factor out
+      page.should_not have_content('Found no active polls.')  #FIXME: factor out
+      page.should have_content('Closed polls')  #FIXME: factor out
+      page.should_not have_content('Found no closed polls.')  #FIXME: factor out
     end
   
     #FIXME: how to test Cancel close?
@@ -58,7 +62,9 @@ describe "Poll administration" do
       TestHelper.create_and_save_poll
       visit polls_path
       click_button 'Close poll'
+      page.should have_content('Active polls')  #FIXME: factor out
       page.should have_content('Found no active polls.')
+      page.should have_content('Closed polls')  #FIXME: factor out
       page.should_not have_content('Found no closed polls.')
     end
   
@@ -67,6 +73,7 @@ describe "Poll administration" do
       TestHelper.create_close_and_save_poll
       visit polls_path
       click_button 'Delete poll'
+      page.should have_content('Closed polls')  #FIXME: factor out
       page.should have_content('Found no closed polls.')
     end
   end
@@ -115,6 +122,18 @@ describe "Poll administration" do
       select Poll::CATEGORIES.first, :from => 'poll_category'
       click_button 'Publish'
       page.should have_content('Poll must have at least 1 question')
+    end
+    
+    it "should create a poll" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Publish'
+      page.should have_content('Poll was successfully created.')
+      page.should have_content('Active polls')
+      page.should_not have_content('Found no active polls.')
     end
   end
 end

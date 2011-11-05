@@ -37,7 +37,7 @@ class PollsController < ApplicationController
       reset_session
 
       respond_to do |format|
-        format.html { redirect_to @poll }
+        format.html { redirect_to polls_url }
       end
     elsif was_button_pressed(:new_question_button)
       if @question.valid?
@@ -52,7 +52,7 @@ class PollsController < ApplicationController
         reset_session
 
         respond_to do |format|
-          format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
+          format.html { redirect_to polls_url, notice: 'Poll was successfully created.' }
         end
       else
         rerender_new
