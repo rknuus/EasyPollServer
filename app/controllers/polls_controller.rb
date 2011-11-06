@@ -9,15 +9,6 @@ class PollsController < ApplicationController
     end
   end
 
-  # GET /polls/1
-  def show
-    @poll = Poll.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
-  end
-
   # GET /polls/new
   def new
     setup_new_session
