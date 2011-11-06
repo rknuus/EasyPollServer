@@ -122,6 +122,26 @@ describe "Poll administration" do
       click_button 'Add question'
       page.should have_content('Question 2')
     end
+    
+    it "should add ten questions" do
+      visit new_poll_path
+      1.upto(10) do |i|
+        fill_in "poll_questions_attributes_#{i-1}_text", :with => 'A question'
+        select Question::KINDS.last, :from => "poll_questions_attributes_#{i-1}_kind"
+        click_button 'Add question'
+      end
+      page.should have_content('Question 11')
+    end
+    
+    # it "should delete the only question" do
+    #   visit new_poll_path
+    #   fill_in 'poll_questions_attributes_0_text', :with => 'A question'
+    #   select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'
+    #   click_button 'Add question'
+    #   click_button 'Delete question'
+    #   page.should have_content('Question 1')
+    #   page.should_not have_content('Question 2')
+    # end
 
     it "should fail to publish without title and category" do
       visit new_poll_path
