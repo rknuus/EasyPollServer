@@ -38,7 +38,6 @@ class PollsController < ApplicationController
 
       rerender_new
     else #was_button_pressed(:publish_button)
-      @poll.questions << @question if @question.valid?
       if @poll.save
         reset_session
 

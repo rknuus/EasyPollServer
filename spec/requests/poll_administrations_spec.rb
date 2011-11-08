@@ -159,12 +159,23 @@ describe "Poll administration" do
       page.should have_content('Poll must have at least 1 question')
     end
     
+    it "should fail to publish if first question entered but not added" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Publish'
+      page.should have_content('Poll must have at least 1 question')
+    end
+    
     it "should create a poll" do
       visit new_poll_path
       fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
       select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
       fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
       select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Add question'
       click_button 'Publish'
       page.should have_content('Poll was successfully created.')
       should_have_active_polls
