@@ -207,7 +207,6 @@ describe "Poll administration" do
       end
       fill_in 'poll_questions_attributes_1_text', :with => ''  #FIXME: factor out
       click_button 'Publish'
-      save_and_open_page
       page.should have_content("Questions text can't be blank")
       page.should have_xpath("//div[@class='field_with_errors']/input[@id='poll_questions_attributes_1_text']")
     end
