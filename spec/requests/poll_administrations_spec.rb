@@ -180,6 +180,37 @@ describe "Poll administration" do
       page.should have_content('Poll was successfully created.')
       should_have_active_polls
     end
+    
+    it "should update an already added question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Add question'
+      fill_in 'poll_questions_attributes_0_text', :with => 'changed question'  #FIXME: factor out
+      select Question::KINDS.first, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Publish'
+      poll = Poll.find(:all).first
+      poll.questions.first.text.should == 'changed question'
+      poll.questions.first.kind.should == Question::KINDS.first
+    end
+    
+    it "should fail if invalidating an already added question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      3.times do |i|
+        fill_in "poll_questions_attributes_#{i}_text", :with => "Q#{i}"  #FIXME: factor out
+        select Question::KINDS.last, :from => "poll_questions_attributes_#{i}_kind"  #FIXME: factor out
+        click_button 'Add question'
+      end
+      fill_in 'poll_questions_attributes_1_text', :with => ''  #FIXME: factor out
+      click_button 'Publish'
+      save_and_open_page
+      page.should have_content("Questions text can't be blank")
+      page.should have_xpath("//div[@class='field_with_errors']/input[@id='poll_questions_attributes_1_text']")
+    end
   end
   
   include TestHelper
