@@ -82,22 +82,22 @@ private
     end
   end
 
+  #FIXME: delete?
   def reset_session
     session[:poll_params] = {}
   end
   
+  #FIXME: delete?
   def setup_new_session
     session[:poll_params] ||= {}
   end
   
   def load_session_variables()
+    #FIXME: can we use params[:poll] instead?
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
 
     @poll = Poll.new(session[:poll_params])
-    @poll.questions = []
-    if session[:poll_params]['questions_attributes']
-      @poll.questions = session[:poll_params]['questions_attributes'].values.compact.collect { |q| Question.new(q) }
-    end
+    @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
     @question = Question.new
   end
   
