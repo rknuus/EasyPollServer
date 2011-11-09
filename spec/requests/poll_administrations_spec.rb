@@ -53,7 +53,7 @@ end
 
 describe "Poll administration" do
   describe "GET / polls" do
-    it "should initially have no active and closed polls" do
+    it "should initially have no active and no closed polls" do
       visit polls_path
       should_have_no_active_polls
       should_have_no_closed_polls
@@ -98,6 +98,12 @@ describe "Poll administration" do
       visit new_poll_path
       page.should have_content('Question 1')
       page.should_not have_content('Question 2')
+    end
+    
+    it "should initially have no remove checkbox and no update button" do
+      visit new_poll_path
+      page.should_not have_button('Update')
+      page.should_not have_field('poll_questions_attributes_0__destroy')
     end
     
     it "should cancel new poll" do

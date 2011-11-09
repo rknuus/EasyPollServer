@@ -93,7 +93,7 @@ private
     session[:poll_params] ||= {}
   end
   
-  def load_session_variables()
+  def load_session_variables
     #FIXME: can we use params[:poll] instead?
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
 
