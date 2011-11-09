@@ -210,6 +210,20 @@ describe "Poll administration" do
       page.should have_content("Questions text can't be blank")
       page.should have_xpath("//div[@class='field_with_errors']/input[@id='poll_questions_attributes_1_text']")
     end
+    
+    it "should delete the second question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      3.times do |i|
+        fill_in "poll_questions_attributes_#{i}_text", :with => "Q#{i}"  #FIXME: factor out
+        select Question::KINDS.last, :from => "poll_questions_attributes_#{i}_kind"  #FIXME: factor out
+        click_button 'Add question'
+      end
+      check 'poll_questions_attributes_1__destroy'
+      click_button 'Update'
+      page.should_not have_content('Question 4')
+    end
   end
   
   include TestHelper
