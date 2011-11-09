@@ -1,4 +1,4 @@
-<h3>Question <%= @question_index %></h3>
+<h3>Question <%= question_index %></h3>
 <div class="field">
   <% field_class = get_question_field_class(:text) %>
   <%= f.label "question text" %><br />
@@ -9,4 +9,12 @@
   <%= f.label "question kind" %><br />
   <span class="<%= field_class %>"><%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %></span>
 </div>
-<%= link_to_function "remove", "$(this).up('.question').remove()" %>
+<% if show_delete? %>
+<div class="field">
+	<%= f.check_box '_destroy' %>
+	<%= f.label '_destroy', 'Remove' %>
+</div>
+<div class="actions">
+  <%= f.submit 'Update', :name => 'update_button' %>
+</div>
+<% end %>

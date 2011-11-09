@@ -53,7 +53,7 @@ end
 
 describe "Poll administration" do
   describe "GET / polls" do
-    it "should initially have no active and closed polls" do
+    it "should initially have no active and no closed polls" do
       visit polls_path
       should_have_no_active_polls
       should_have_no_closed_polls
@@ -98,6 +98,12 @@ describe "Poll administration" do
       visit new_poll_path
       page.should have_content('Question 1')
       page.should_not have_content('Question 2')
+    end
+    
+    it "should initially have no remove checkbox and no update button" do
+      visit new_poll_path
+      page.should_not have_button('Update')
+      page.should_not have_field('poll_questions_attributes_0__destroy')
     end
     
     it "should cancel new poll" do
@@ -159,15 +165,82 @@ describe "Poll administration" do
       page.should have_content('Poll must have at least 1 question')
     end
     
-    it "should create a poll" do
+    it "should fail to publish if first question entered but not added" do
       visit new_poll_path
       fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
       select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
       fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
       select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
       click_button 'Publish'
+      page.should have_content('Poll must have at least 1 question')
+    end
+    
+    it "should create a poll" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Add question'
+      click_button 'Publish'
       page.should have_content('Poll was successfully created.')
       should_have_active_polls
+    end
+    
+    it "should update an already added question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Add question'
+      fill_in 'poll_questions_attributes_0_text', :with => 'changed question'  #FIXME: factor out
+      select Question::KINDS.first, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Publish'
+      poll = Poll.find(:all).first
+      poll.questions.first.text.should == 'changed question'
+      poll.questions.first.kind.should == Question::KINDS.first
+    end
+    
+    it "should fail if invalidating an already added question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      3.times do |i|
+        fill_in "poll_questions_attributes_#{i}_text", :with => "Q#{i}"  #FIXME: factor out
+        select Question::KINDS.last, :from => "poll_questions_attributes_#{i}_kind"  #FIXME: factor out
+        click_button 'Add question'
+      end
+      fill_in 'poll_questions_attributes_1_text', :with => ''  #FIXME: factor out
+      click_button 'Publish'
+      page.should have_content("Questions text can't be blank")
+      page.should have_xpath("//div[@class='field_with_errors']/input[@id='poll_questions_attributes_1_text']")
+    end
+    
+    it "should delete the only question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Add question'
+      check 'poll_questions_attributes_0__destroy'
+      click_button 'Update'
+      page.should_not have_content('Question 2')
+    end
+    
+    it "should delete the second question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      3.times do |i|
+        fill_in "poll_questions_attributes_#{i}_text", :with => "Q#{i}"  #FIXME: factor out
+        select Question::KINDS.last, :from => "poll_questions_attributes_#{i}_kind"  #FIXME: factor out
+        click_button 'Add question'
+      end
+      check 'poll_questions_attributes_1__destroy'
+      click_button 'Update'
+      page.should_not have_content('Question 4')
     end
   end
   

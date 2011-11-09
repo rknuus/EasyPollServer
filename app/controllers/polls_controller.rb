@@ -24,21 +24,22 @@ class PollsController < ApplicationController
     load_session_variables
     @question = @poll.questions.pop || Question.new
 
-    if was_button_pressed(:cancel_button)
+    if was_button_pressed?(:cancel_button)
       reset_session
 
       respond_to do |format|
         format.html { redirect_to polls_url }
       end
-    elsif was_button_pressed(:new_question_button)
+    elsif was_button_pressed?(:new_question_button)
       if @question.valid?
         @poll.questions << @question
         @question = Question.new
       end
 
       rerender_new
-    else #was_button_pressed(:publish_button)
-      @poll.questions << @question if @question.valid?
+    elsif was_button_pressed?(:update_button)
+      rerender_new
+    else #was_button_pressed?(:publish_button)
       if @poll.save
         reset_session
 
@@ -50,7 +51,7 @@ class PollsController < ApplicationController
       end
     end
   end
-    
+  
   # DELETE /polls/1
   def destroy
     @poll = Poll.find(params[:id])
@@ -82,26 +83,27 @@ private
     end
   end
 
+  #FIXME: delete?
   def reset_session
     session[:poll_params] = {}
   end
   
+  #FIXME: delete?
   def setup_new_session
     session[:poll_params] ||= {}
   end
   
-  def load_session_variables()
+  def load_session_variables
+    #FIXME: can we use params[:poll] instead?
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
 
     @poll = Poll.new(session[:poll_params])
-    @poll.questions = []
-    if session[:poll_params]['questions_attributes']
-      @poll.questions = session[:poll_params]['questions_attributes'].values.compact.collect { |q| Question.new(q) }
-    end
+    @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
+    #FIXME: consider to split the view into @poll.questions[0..-2]  and  @poll.questions[-1]  and remove @question
     @question = Question.new
   end
   
-  def was_button_pressed(button)
+  def was_button_pressed?(button)
     params[button]
   end
 end

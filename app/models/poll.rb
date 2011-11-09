@@ -1,6 +1,6 @@
 class Poll < ActiveRecord::Base
   has_many :questions, :dependent => :destroy
-  accepts_nested_attributes_for :questions, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :questions, :allow_destroy => true
   
   CATEGORIES = ['Political Poll', 'Commercial Poll']
   

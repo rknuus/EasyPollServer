@@ -23,9 +23,21 @@
 	  <%= f.select :category, Poll::CATEGORIES, :prompt => 'Select a category' %>
 	</div>
 
-  <div class="questions">
-		<h2>Question list</h2>
-		<p><%= add_question_button 'Add a question' %></p>
+	<h2>Question list</h2>
+	<% start_question_list %>
+	<%= f.fields_for :questions, @poll.questions do |builder| %>
+		<% next_question %>
+		<%= render 'question_fields', :f => builder %>
+	<% end %>
+	<% end_question_list %>
+
+	<h2>New question</h2>
+	<%= f.fields_for :questions, @question do |builder| %>
+		<% next_question %>
+		<%= render 'question_fields', :f => builder %>
+	<% end %>
+	<div class="actions">
+	  <%= f.submit 'Add question', :name => 'new_question_button' %>
 	</div>
 
 	<div class="actions">

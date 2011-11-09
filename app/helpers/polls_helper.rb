@@ -8,9 +8,24 @@ module PollsHelper
     end
   end
   
-  def add_question_button(name)
-    button_to_function(name) do |page|
-      page.insert_html :bottom, :questions, :partial => 'question', :object => Question.new
-    end
+  def start_question_list
+    @question_index = 0
+    @show_delete = true
+  end
+  
+  def next_question
+    @question_index += 1
+  end
+  
+  def question_index
+    @question_index
+  end
+  
+  def end_question_list
+    @show_delete = false
+  end
+  
+  def show_delete?
+    @show_delete
   end
 end
