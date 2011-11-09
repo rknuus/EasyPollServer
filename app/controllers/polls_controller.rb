@@ -58,7 +58,7 @@ class PollsController < ApplicationController
     @poll.destroy
 
     respond_to do |format|
-      format.html { redirect_to polls_url }  #FIXME: notice: 'Poll was successfully deleted.' or not?
+      format.html { redirect_to polls_url }
     end
   end
 
@@ -69,7 +69,7 @@ class PollsController < ApplicationController
 
     respond_to do |format|
       if @poll.save
-        format.html { redirect_to polls_url } #FIXME: notice: 'Poll was successfully closed.' or not?
+        format.html { redirect_to polls_url }
       else
         format.html { redirect_to polls_url }
       end
@@ -99,7 +99,6 @@ private
 
     @poll = Poll.new(session[:poll_params])
     @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
-    #FIXME: consider to split the view into @poll.questions[0..-2]  and  @poll.questions[-1]  and remove @question
     @question = Question.new
   end
   
