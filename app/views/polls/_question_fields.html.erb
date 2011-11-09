@@ -9,4 +9,12 @@
   <%= f.label "question kind" %><br />
   <span class="<%= field_class %>"><%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %></span>
 </div>
-<!-- < %= button_to 'Delete question', @poll.questions[@question_index], confirm: 'Are you sure?', :method => :delete %> -->
+<!-- < % if @question_index-1 < @poll.questions.count %>-->
+<div class="field">
+	<%= f.check_box '_destroy' %>
+	<%= f.label '_destroy', 'Remove' %>
+</div>
+<div class="actions">
+  <%= f.submit 'Update', :name => 'update_button' %>
+</div>
+<!-- < % end %> -->

@@ -25,7 +25,7 @@
 
 	<h2>Question list</h2>
 	<% @question_index = 0 %>
-	<%= f.fields_for :questions, @question_list do |builder| %>
+	<%= f.fields_for :questions, @poll.questions do |builder| %>
 		<% @question_index += 1 %>
 		<%= render 'question_fields', :f => builder %>
 	<% end %>
