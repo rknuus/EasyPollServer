@@ -211,6 +211,18 @@ describe "Poll administration" do
       page.should have_xpath("//div[@class='field_with_errors']/input[@id='poll_questions_attributes_1_text']")
     end
     
+    it "should delete the only question" do
+      visit new_poll_path
+      fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
+      select Poll::CATEGORIES.first, :from => 'poll_category'  #FIXME: factor out
+      fill_in 'poll_questions_attributes_0_text', :with => 'A question'  #FIXME: factor out
+      select Question::KINDS.last, :from => 'poll_questions_attributes_0_kind'  #FIXME: factor out
+      click_button 'Add question'
+      check 'poll_questions_attributes_0__destroy'
+      click_button 'Update'
+      page.should_not have_content('Question 2')
+    end
+    
     it "should delete the second question" do
       visit new_poll_path
       fill_in 'poll_title', :with => 'A poll'  #FIXME: factor out
