@@ -24,17 +24,16 @@
 	</div>
 
 	<h2>Question list</h2>
-	<% @show_delete = true %>
-	<% @question_index = 0 %>
+	<% start_question_list %>
 	<%= f.fields_for :questions, @poll.questions do |builder| %>
-		<% @question_index += 1 %>
+		<% next_question %>
 		<%= render 'question_fields', :f => builder %>
 	<% end %>
+	<% end_question_list %>
 
 	<h2>New question</h2>
-	<% @show_delete = false %>
 	<%= f.fields_for :questions, @question do |builder| %>
-		<% @question_index += 1 %>
+		<% next_question %>
 		<%= render 'question_fields', :f => builder %>
 	<% end %>
 	<div class="actions">
