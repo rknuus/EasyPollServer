@@ -1,4 +1,7 @@
 class PollsController < ApplicationController
+  
+  before_filter :authenticate_user!
+  
   # GET /polls
   def index
     @active_polls = Poll.get_active_polls
