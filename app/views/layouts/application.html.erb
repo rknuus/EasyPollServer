@@ -27,7 +27,7 @@
     <%= yield %>
   </div>
   <div id="footer">
-    <% if (admin_signed_in? == false) %>
+    <% if !admin_signed_in? %>
       <%= link_to('Admin login', new_admin_session_path)  %> | 
       <%= link_to('Admin Register', new_admin_registration_path)  %> (to be removed later)
     <% end %>
