@@ -15,6 +15,7 @@
 	  <tr>
 	    <th>Title</th>
 	    <th>Category</th>
+        <th>Created By</th>
 	    <!-- <th># of participants</th> -->
 	    <th># of questions</th>
 	    <th>Published at</th>
@@ -25,6 +26,7 @@
 	  <tr>
 	    <td><%= poll.title %></td>
 	    <td><%= poll.category %></td>
+        <td><%= poll.user.first_name %> <%= poll.user.name %></td>
 	    <!-- <td>< %= poll.answers.count %></td> -->
 	    <td><%= poll.questions.count %></td>
 	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
@@ -43,6 +45,7 @@
 	  <tr>
 	    <th>Title</th>
 	    <th>Category</th>
+        <th>Created By</th>
 	    <!-- <th># of participants</th> -->
 	    <th># of questions</th>
 	    <th>Closed at</th>
@@ -55,6 +58,7 @@
 	  <tr>
 	    <td><%= poll.title %></td>
 	    <td><%= poll.category %></td>
+        <td><%= poll.user.first_name %> <%= poll.user.name %></td>
 	    <!-- <td>< %= poll.answers.count %></td> -->
 	    <td><%= poll.questions.count %></td>
 	    <td><%= poll.closed_at.to_formatted_s(:long) %></td>
