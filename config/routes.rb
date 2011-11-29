@@ -1,4 +1,6 @@
 EasyPollServer::Application.routes.draw do
+  devise_for :admins
+
   devise_for :users
 
   resources :polls, :only => [:index, :new, :create, :destroy] do
