@@ -11,11 +11,16 @@
     Placeholder for page header
   </div>
   <div id="login">
-    Placeholder for login/logout area
+    <% if user_signed_in? %>
+      Logged in as <%= current_user.email %> |
+      <%= link_to('Edit registration', edit_user_registration_path) %> |
+      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+    <% else %>
+      <%= link_to('Login', new_user_session_path)  %> | 
+      <%= link_to('Register', new_user_registration_path)  %>
+    <% end %>
   </div>
   <div id="main">
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
     <%= yield %>
   </div>
   <div id="footer">
