@@ -24,8 +24,9 @@ class PollsController < ApplicationController
   # POST /polls
   def create
     load_session_variables
-    @question = @poll.questions.pop || Question.new
-
+    @question = @poll.questions.pop || Question.new(session[:question_params])
+    @option = @question.options.pop || Option.new
+    
     if was_button_pressed?(:cancel_button)
       reset_session
 
@@ -88,11 +89,13 @@ private
   #FIXME: delete?
   def reset_session
     session[:poll_params] = {}
+    session[:question_params] = {}
   end
   
   #FIXME: delete?
   def setup_new_session
     session[:poll_params] ||= {}
+    session[:question_params] ||= {}
   end
   
   def load_session_variables
@@ -101,7 +104,16 @@ private
 
     @poll = Poll.new(session[:poll_params])
     @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
-    @question = Question.new
+    
+    session[:question_params].deep_merge!(params[:question]) if params[:question]
+    @question = Question.new(session[:question_params])
+    @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
+    @option = Array.new
+        10.times do
+          o = Option.new
+          @option.push o
+        end
+    
   end
   
   def was_button_pressed?(button)
