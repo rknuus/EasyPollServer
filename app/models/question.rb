@@ -7,9 +7,9 @@ class Question < ActiveRecord::Base
   
   validates :text, :kind, :presence => true
   validates :kind, :inclusion => KINDS
-  validate :has_two_options?
+  #validate :has_two_options?
   
-  def has_two_options?
-    errors[:base] << 'Question must have at least 2 options' if self.options.length < 2
-  end
+  # def has_two_options?
+  #     errors[:base] << 'Question must have at least 2 options' if self.options.length < 2
+  #   end
 end

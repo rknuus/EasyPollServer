@@ -24,25 +24,57 @@ class PollsController < ApplicationController
   # POST /polls
   def create
     load_session_variables
+    
+    @option = Array.new
+    if @poll.questions.empty?
+      10.times do
+        o = Option.new
+        @option.push o
+      end
+    else
+      @option = @poll.questions.last.options
+    end
+    
     @question = @poll.questions.pop || Question.new(session[:question_params])
-    @option = @question.options.pop || Option.new
     
     if was_button_pressed?(:cancel_button)
+      
       reset_session
 
       respond_to do |format|
         format.html { redirect_to polls_url }
       end
+      
     elsif was_button_pressed?(:new_question_button)
       if @question.valid?
+        #@question.options = @option
         @poll.questions << @question
-        @question = Question.new
+        @question = Question.new(session[:question_params])
+        @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
+        @option = Array.new
+        10.times do
+          o = Option.new
+          @option.push o
+        end
       end
-
       rerender_new
+      
     elsif was_button_pressed?(:update_button)
       rerender_new
+      
     else #was_button_pressed?(:publish_button)
+      
+      @poll.questions.each_index do |i|
+        o = @poll.questions[i].options
+        onew = Array.new
+        10.times do |k|
+          if o[k].text != ""
+            onew << o[k]
+          end
+        end
+        @poll.questions[i].options = onew
+      end
+      
       if @poll.save
         reset_session
 
@@ -109,10 +141,10 @@ private
     @question = Question.new(session[:question_params])
     @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
     @option = Array.new
-        10.times do
-          o = Option.new
-          @option.push o
-        end
+      10.times do
+        o = Option.new
+        @option.push o
+      end
     
   end
   
