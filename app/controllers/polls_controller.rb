@@ -25,16 +25,6 @@ class PollsController < ApplicationController
   def create
     load_session_variables
     
-    # @option = Array.new
-    #     if @poll.questions.empty?
-    #       10.times do
-    #         o = Option.new
-    #         @option.push o
-    #       end
-    #     else
-    #       @option = @poll.questions.last.options
-    #     end
-    
     @question = @poll.questions.pop || Question.new(session[:question_params])
     @option = Array.new
     10.times do
@@ -47,7 +37,6 @@ class PollsController < ApplicationController
     end
     
     if was_button_pressed?(:cancel_button)
-      
       reset_session
 
       respond_to do |format|
@@ -55,11 +44,11 @@ class PollsController < ApplicationController
       end
       
     elsif was_button_pressed?(:new_question_button)
+      
       if @question.valid?
         10.times do
           @question.options.push @option.pop
         end
-        #@question.options = @option
         @poll.questions << @question
         @question = Question.new(session[:question_params])
         @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
