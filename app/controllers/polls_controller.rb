@@ -25,17 +25,26 @@ class PollsController < ApplicationController
   def create
     load_session_variables
     
-    @option = Array.new
-    if @poll.questions.empty?
-      10.times do
-        o = Option.new
-        @option.push o
-      end
-    else
-      @option = @poll.questions.last.options
-    end
+    # @option = Array.new
+    #     if @poll.questions.empty?
+    #       10.times do
+    #         o = Option.new
+    #         @option.push o
+    #       end
+    #     else
+    #       @option = @poll.questions.last.options
+    #     end
     
     @question = @poll.questions.pop || Question.new(session[:question_params])
+    @option = Array.new
+    10.times do
+      if @question.options.empty?
+        o = Option.new
+      else
+        o = @question.options.pop
+      end
+      @option.push o
+    end
     
     if was_button_pressed?(:cancel_button)
       
@@ -47,6 +56,9 @@ class PollsController < ApplicationController
       
     elsif was_button_pressed?(:new_question_button)
       if @question.valid?
+        10.times do
+          @question.options.push @option.pop
+        end
         #@question.options = @option
         @poll.questions << @question
         @question = Question.new(session[:question_params])
@@ -133,7 +145,6 @@ private
   def load_session_variables
     #FIXME: can we use params[:poll] instead?
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
-
     @poll = Poll.new(session[:poll_params])
     @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
     
@@ -141,11 +152,10 @@ private
     @question = Question.new(session[:question_params])
     @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
     @option = Array.new
-      10.times do
-        o = Option.new
-        @option.push o
-      end
-    
+    10.times do
+      o = Option.new
+      @option.push o
+    end
   end
   
   def was_button_pressed?(button)
