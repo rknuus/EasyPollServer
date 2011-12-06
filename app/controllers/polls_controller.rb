@@ -35,6 +35,7 @@ class PollsController < ApplicationController
       end
       @option.push o
     end
+    @option.reverse!
     
     if was_button_pressed?(:cancel_button)
       reset_session
@@ -44,11 +45,10 @@ class PollsController < ApplicationController
       end
       
     elsif was_button_pressed?(:new_question_button)
-      
-      if @question.valid?
-        10.times do
-          @question.options.push @option.pop
-        end
+      puts @option[0].valid?
+      puts @option[1].valid?
+      if @question.valid? && @option[0].valid? && @option[1].valid?
+        @question.options = @option
         @poll.questions << @question
         @question = Question.new(session[:question_params])
         @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]

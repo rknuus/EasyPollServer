@@ -46,6 +46,6 @@
 
 	<div class="actions">
 	  <%= f.submit 'Cancel', :name => 'cancel_button' %>
-	  <%= f.submit 'Publish' %>
+	  <%= f.submit 'Publish' if !@poll.questions.blank? %>
 	</div>
 <% end %>
