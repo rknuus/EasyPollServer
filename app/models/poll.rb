@@ -1,7 +1,7 @@
 class Poll < ActiveRecord::Base
   belongs_to :user
   has_many :questions, :dependent => :destroy
-  accepts_nested_attributes_for :questions, :allow_destroy => true
+  accepts_nested_attributes_for :questions, :allow_destroy => true #, :reject_if => :all_blank
   
   CATEGORIES = ['Political Poll', 'Commercial Poll']
   
@@ -30,6 +30,6 @@ private
   end
   
   def has_question?
-    errors[:base] << 'Poll must have at least 1 question' if self.questions.blank?
+      errors[:base] << 'Poll must have at least 1 question' if self.questions[0].blank?
   end
 end
