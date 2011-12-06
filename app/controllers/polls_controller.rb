@@ -45,9 +45,8 @@ class PollsController < ApplicationController
       end
       
     elsif was_button_pressed?(:new_question_button)
-      puts @option[0].valid?
-      puts @option[1].valid?
-      if @question.valid? && @option[0].valid? && @option[1].valid?
+
+      if @question.valid? and @option[0].valid? and @option[1].valid?
         @question.options = @option
         @poll.questions << @question
         @question = Question.new(session[:question_params])
