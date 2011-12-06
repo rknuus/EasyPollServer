@@ -5,9 +5,6 @@ class Question < ActiveRecord::Base
 
   KINDS = ['single choice', 'multiple choice']
   
-  validates :text, :kind, :presence => true
-  validates :kind, :inclusion => KINDS
-  
   validates_presence_of :text, :kind
   validates_inclusion_of :kind, :in => KINDS
   
