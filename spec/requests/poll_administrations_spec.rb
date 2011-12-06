@@ -171,7 +171,9 @@ describe "Poll administration" do
     end
   
     it "should fail to add new question and not append question when empty" do
+      save_and_open_page
       click_button 'Add question'
+      save_and_open_page
       page.should have_content("Text can't be blank")
       page.should have_content('Question 1')
       page.should have_xpath("//span[@class='field_with_errors']")

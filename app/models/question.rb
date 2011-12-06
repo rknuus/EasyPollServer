@@ -8,4 +8,7 @@ class Question < ActiveRecord::Base
   validates :text, :kind, :presence => true
   validates :kind, :inclusion => KINDS
   
+  validates_presence_of :text, :kind
+  validates_inclusion_of :kind, :in => KINDS
+  
 end
