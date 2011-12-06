@@ -11,7 +11,7 @@ module PollsHelper
   def start_question_list
     @question_index = 0
     @show_delete = true
-    @show_existent_options = true
+    # @show_existent_options = true
   end
   
   def next_question
@@ -24,31 +24,31 @@ module PollsHelper
   
   def end_question_list
     @show_delete = false
-    @show_existent_options = false
+    # @show_existent_options = false
   end
   
   def show_delete?
     @show_delete
   end
   
-  def show_existent_options?
-    @show_existent_options
-  end
-  
-  # def get_option_field_class(symbol)
-  #     if @option_index > @question.options.count && @option.errors[symbol].any?
-  #       'field_with_errors'
-  #     else
-  #       'field'
-  #     end
-  #   end
-  
-  def start_option_list
-    @option_index = 0
-  end
-  
-  def next_option
-    @option_index += 1
-  end
+  # def show_existent_options?
+  #   @show_existent_options
+  # end
+  # 
+  # # def get_option_field_class(symbol)
+  # #     if @option_index > @question.options.count && @option.errors[symbol].any?
+  # #       'field_with_errors'
+  # #     else
+  # #       'field'
+  # #     end
+  # #   end
+  # 
+  # def start_option_list
+  #   @option_index = 0
+  # end
+  # 
+  # def next_option
+  #   @option_index += 1
+  # end
   
 end

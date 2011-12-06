@@ -10,14 +10,8 @@
   <span class="<%= field_class %>"><%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %></span>
 </div>
 
-<% if show_existent_options? %>
-  <%= f.fields_for :options, @question.options[question_index] do |builder| %>
-    <%= render 'option_fields', :f => builder %>
-  <% end %>
-<% else %>
-  <%= f.fields_for :options, @option do |builder| %>
-    <%= render 'option_fields', :f => builder %>
-  <% end %>
+<%= f.fields_for :options do |builder| %>
+  <%= render 'option_fields', :f => builder %>
 <% end %>
 
 <% if show_delete? %>

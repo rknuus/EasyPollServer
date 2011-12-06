@@ -23,19 +23,20 @@ class PollsController < ApplicationController
 
   # POST /polls
   def create
+    # debugger
     load_session_variables
     
-    @question = @poll.questions.pop || Question.new(session[:question_params])
-    @option = Array.new
-    10.times do
-      if @question.options.empty?
-        o = Option.new
-      else
-        o = @question.options.pop
-      end
-      @option.push o
-    end
-    @option.reverse!
+    @question = @poll.questions.pop || Question.new
+    # @option = Array.new
+    # 10.times do
+    #   if @question.options.empty?
+    #     o = Option.new
+    #   else
+    #     o = @question.options.pop
+    #   end
+    #   @option.push o
+    # end
+    # @option.reverse!
     
     if was_button_pressed?(:cancel_button)
       reset_session
@@ -45,35 +46,39 @@ class PollsController < ApplicationController
       end
       
     elsif was_button_pressed?(:new_question_button)
+      
 
-      if @question.valid? and @option[0].valid? and @option[1].valid?
-        @question.options = @option
+      if @question.valid? #and @option[0].valid? and @option[1].valid?
+        # @question.options = @option
         @poll.questions << @question
-        @question = Question.new(session[:question_params])
-        @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
-        @option = Array.new
-        10.times do
-          o = Option.new
-          @option.push o
-        end
+        @question = Question.new
+#        @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
+        # @option = Array.new
+        # 10.times do
+        #   o = Option.new
+        #   @option.push o
+        # end
       end
       rerender_new
       
     elsif was_button_pressed?(:update_button)
+      
+      #session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
+      #session[:question_params].deep_merge!(params[:question]) if params[:question]
       rerender_new
       
     else #was_button_pressed?(:publish_button)
       
-      @poll.questions.each_index do |i|
-        o = @poll.questions[i].options
-        onew = Array.new
-        10.times do |k|
-          if o[k].text != ""
-            onew << o[k]
-          end
-        end
-        @poll.questions[i].options = onew
-      end
+      # @poll.questions.each_index do |i|
+      #   o = @poll.questions[i].options
+      #   onew = Array.new
+      #   10.times do |k|
+      #     if o[k].text != ""
+      #       onew << o[k]
+      #     end
+      #   end
+      #   @poll.questions[i].options = onew
+      # end
       
       if @poll.save
         reset_session
@@ -135,15 +140,20 @@ private
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
     @poll = Poll.new(session[:poll_params])
     @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
-    
-    session[:question_params].deep_merge!(params[:question]) if params[:question]
-    @question = Question.new(session[:question_params])
-    @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
-    @option = Array.new
-    10.times do
-      o = Option.new
-      @option.push o
+    @poll.questions.each_with_index do |question, i|
+      @poll.questions[i].options = []
+      @poll.questions[i].options_attributes = params[:poll][:questions_attributes][i.to_s][:options_attributes] if params[:poll][:questions_attributes][i.to_s][:options_attributes]
     end
+    
+    
+    # session[:question_params].deep_merge!(params[:question]) if params[:question]
+    @question = Question.new
+    # @question.option_attributes = session[:question_params][:options_attributes] if session[:question_params][:options_attributes]
+    # @option = Array.new
+    # 10.times do
+    #   o = Option.new
+    #   @option.push o
+    # end
   end
   
   def was_button_pressed?(button)
