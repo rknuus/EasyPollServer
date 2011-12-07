@@ -5,8 +5,8 @@ class Question < ActiveRecord::Base
   validates_inclusion_of :kind, :in => KINDS
   # validate :two_or_more_options
   
-  after_initialize :build_options
   before_save :remove_empty_options
+  after_initialize :build_options
   
   belongs_to :poll
   has_many :options, :dependent => :destroy
@@ -20,7 +20,8 @@ private
   end
   
   def build_options
-    10.times { self.options.build }
+    self.options.clear
+    10.times { self.options.push Option.new }
   end
   
   def remove_empty_options
