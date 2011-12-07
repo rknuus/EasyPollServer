@@ -8,71 +8,21 @@
   <%= yield %>
 </div>
 
-<h1>Active polls</h1>
-
-<% if @active_polls.count > 0 %>
-	<table>
-	  <tr>
-	    <th>Title</th>
-	    <th>Category</th>
-        <th>Created By</th>
-	    <!-- <th># of participants</th> -->
-	    <th># of questions</th>
-	    <th>Published at</th>
-	    <th></th>
-	  </tr>
-
-	<% @active_polls.each do |poll| %>
-	  <tr>
-	    <td><%= poll.title %></td>
-	    <td><%= poll.category %></td>
-        <td><%= poll.user.first_name %> <%= poll.user.name %></td>
-	    <!-- <td>< %= poll.answers.count %></td> -->
-	    <td><%= poll.questions.count %></td>
-	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
-	    <td><%= button_to 'Close poll', close_poll_path(poll), confirm: 'Are you sure?', :method => :put %></td>
-	  </tr>
-	<% end %>
-	</table>
-<% else %>
-  <p>Found no active polls.</p>
-<% end %>
-
-<h1>Closed polls</h1>
-
-<% if @closed_polls.count > 0 %>
-	<table>
-	  <tr>
-	    <th>Title</th>
-	    <th>Category</th>
-        <th>Created By</th>
-	    <!-- <th># of participants</th> -->
-	    <th># of questions</th>
-	    <th>Closed at</th>
-	    <th>Published at</th>
-	    <th></th>
-	    <th></th>
-	  </tr>
-
-	<% @closed_polls.each do |poll| %>
-	  <tr>
-	    <td><%= poll.title %></td>
-	    <td><%= poll.category %></td>
-        <td><%= poll.user.first_name %> <%= poll.user.name %></td>
-	    <!-- <td>< %= poll.answers.count %></td> -->
-	    <td><%= poll.questions.count %></td>
-	    <td><%= poll.closed_at.to_formatted_s(:long) %></td>
-	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
-	    <td><%= link_to 'Download poll results', poll %></td>
-	    <!-- <td>< %= link_to 'Download poll results', get_poll_result_path(poll) %></td> -->
-	    <td><%= button_to 'Delete poll', poll, confirm: 'Are you sure?', :method => :delete %></td>
-	  </tr>
-	<% end %>
-	</table>
-<% else %>
-  <p>Found no closed polls.</p>
-<% end %>
-
-<h1>New polls</h1>
-
-<%= link_to 'Create poll', new_poll_path %>
+<table border="0" cellpadding="0" cellspacing="0" width="1200px">
+  <tr align="left" valign="top">
+    <th width="600px">
+      <h1>Published polls</h1>
+    </th>
+    <th width="600px">
+      <h1>Active polls</h1>
+    </th>
+  </tr>
+  <tr align="left" valign="top">
+    <td>
+	  <%= render 'published_polls' %>
+	</td>
+    <td>
+      <%= render 'my_polls' %>
+    </td>
+  </tr>
+</table>

@@ -16,8 +16,12 @@ class Poll < ActiveRecord::Base
     self.closed_at = DateTime.now if self.closed_at.nil?
   end
   
-  def self.get_active_polls
+  def self.get_all_active_polls
     find(:all, :conditions => 'closed_at IS NULL')
+  end
+  
+  def self.get_my_active_polls(my_user_id)
+    find(:all, :conditions => { :closed_at => nil, :user_id => my_user_id } )
   end
 
   def self.get_closed_polls
