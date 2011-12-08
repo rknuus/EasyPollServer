@@ -86,7 +86,7 @@ class PollsController < ApplicationController
     @poll = Poll.find(params[:id])
 
     respond_to do |format|
-      format.html { render action: "answer" }
+      format.html # answer.html.erb
     end
   end
   
