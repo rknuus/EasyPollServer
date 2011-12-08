@@ -1,3 +1,5 @@
+<h2>Active polls</h2>
+
 <% if @my_active_polls && @my_active_polls.count > 0 %>
 	<table>
 	  <tr>
@@ -26,7 +28,7 @@
   <p>Found no active polls.</p>
 <% end %>
 
-<h1>Closed polls</h1>
+<h2>Closed polls</h2>
 
 <% if @closed_polls.count > 0 %>
 	<table>
@@ -61,6 +63,6 @@
   <p>Found no closed polls.</p>
 <% end %>
 
-<h1>New polls</h1>
+<h2>New polls</h2>
 
 <%= link_to 'Create poll', new_poll_path %>
