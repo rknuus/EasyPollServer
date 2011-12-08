@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  
   has_many :polls, :dependent => :destroy
+  has_many :participations, :dependent => :destroy  #FIXME: not sure whether OK if both user and poll can delete a participation
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable

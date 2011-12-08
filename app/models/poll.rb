@@ -2,6 +2,7 @@ class Poll < ActiveRecord::Base
   belongs_to :user
   has_many :questions, :dependent => :destroy
   accepts_nested_attributes_for :questions, :allow_destroy => true
+  has_many :participations, :dependent => :destroy  #FIXME: not sure whether OK if both user and poll can delete a participation
   
   CATEGORIES = ['Political Poll', 'Commercial Poll']
   
