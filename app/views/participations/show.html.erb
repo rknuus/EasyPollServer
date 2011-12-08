@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Poll:</b>
+  <%= @participation.poll_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @participation.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_participation_path(@participation) %> |
+<%= link_to 'Back', participations_path %>
