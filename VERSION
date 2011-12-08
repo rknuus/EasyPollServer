@@ -1,3 +1,7 @@
+== TBD
+bug: option texts are not properly stored to the DB
+bug: removing questions from a poll results in errors
+
 == B.3
 add: options validation when adding a question
 fix: deleted forgotten comments from question model
@@ -6,6 +10,7 @@ fix: New Poll, Create Poll with add question and options, delete question and op
 add: poll creation with options possible, bugs at the delete and update button
 add: partially integrated option into poll creation
 fix: rspec tests
+
 == B.2
 add:	User Management
 

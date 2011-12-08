@@ -11,6 +11,18 @@
     </div>
   <% end %>
 
+	<ol>
+		<% @participation.poll.questions.each do |question| %>
+			<li>
+				<%= question.text %><br />
+				<% question.options.each do |option| %>
+				  <label for="options"><%= option.text %>:</label>
+				  <%= option_tag_for(option, question) %>
+				<% end %>
+			</li>
+		<% end %>
+	</ol>
+
   <div class="actions">
     <%= f.submit %>
   </div>

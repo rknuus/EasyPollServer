@@ -115,8 +115,9 @@ private
     @poll = Poll.new(session[:poll_params])
     @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
     @poll.questions.each_with_index do |question, i|
-      @poll.questions[i].options = []
-      @poll.questions[i].options_attributes = params[:poll][:questions_attributes][i.to_s][:options_attributes] if params[:poll][:questions_attributes][i.to_s][:options_attributes]
+      question.options = []
+      question.options_attributes = params[:poll][:questions_attributes][i.to_s][:options_attributes] if params[:poll][:questions_attributes] && params[:poll][:questions_attributes][i.to_s][:options_attributes]
+      # @poll.questions[i] = question
     end
     @question = Question.new
   end
