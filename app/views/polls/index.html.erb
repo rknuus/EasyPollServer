@@ -22,7 +22,11 @@
 	  <%= render 'published_polls' %>
 	</td>
     <td>
-      <%= render 'my_polls' %>
+	  <% if user_signed_in? %>
+        <%= render 'my_polls' %>
+      <% else %>
+        Please <%= link_to('Login', new_user_session_path)  %> to view your polls
+      <% end %>
     </td>
   </tr>
 </table>
