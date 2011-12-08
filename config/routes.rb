@@ -8,6 +8,7 @@ EasyPollServer::Application.routes.draw do
     member do
       put 'close'
       put 'update'
+      put 'answer'
     end
   end
 
