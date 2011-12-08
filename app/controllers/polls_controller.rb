@@ -3,9 +3,7 @@ class PollsController < ApplicationController
   
   # GET /polls
   def index
-    if user_signed_in?
-      @my_active_polls = Poll.get_my_active_polls(current_user.id)
-    end
+    @my_active_polls = Poll.get_my_active_polls(current_user)
     @closed_polls = Poll.get_closed_polls
 
     respond_to do |format|
