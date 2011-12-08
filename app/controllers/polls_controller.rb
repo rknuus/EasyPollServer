@@ -3,7 +3,7 @@ class PollsController < ApplicationController
   
   # GET /polls
   def index
-    #FIXME: @active_polls containing all active polls created by other users
+    @all_active_polls = Poll.get_all_active_polls
     @my_active_polls = Poll.get_my_active_polls(current_user)
     @my_closed_polls = Poll.get_my_closed_polls(current_user)
 

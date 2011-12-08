@@ -1,3 +1,30 @@
 <h2>Active polls</h2>
 
-published polls
+<% if @all_active_polls && @all_active_polls.count > 0 %>
+	<table>
+	  <tr>
+	    <th>Title</th>
+	    <th>Category</th>
+	    <th>Creator</th>
+	    <th># of questions</th>
+	    <th>Published at</th>
+	    <th></th>
+	  </tr>
+
+	<% @all_active_polls.each do |poll| %>
+	  <tr>
+	    <td><%= poll.title %></td>
+	    <td><%= poll.category %></td>
+	    <td><%= poll.user.full_name %></td>
+	    <td><%= poll.questions.count %></td>
+	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
+	    <td><%= button_to 'Answer poll', close_poll_path(poll), :method => :put %></td>
+	  </tr>
+	<% end %>
+	</table>
+    
+	
+<% else %>
+  <p>Found no active polls.</p>
+<% end %>
+
