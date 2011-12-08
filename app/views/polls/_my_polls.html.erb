@@ -30,7 +30,7 @@
 
 <h2>Closed polls</h2>
 
-<% if @closed_polls.count > 0 %>
+<% if @my_closed_polls.count > 0 %>
 	<table>
 	  <tr>
 	    <th>Title</th>
@@ -44,7 +44,7 @@
 	    <th></th>
 	  </tr>
 
-	<% @closed_polls.each do |poll| %>
+	<% @my_closed_polls.each do |poll| %>
 	  <tr>
 	    <td><%= poll.title %></td>
 	    <td><%= poll.category %></td>

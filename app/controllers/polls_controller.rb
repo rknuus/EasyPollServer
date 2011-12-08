@@ -3,8 +3,9 @@ class PollsController < ApplicationController
   
   # GET /polls
   def index
+    #FIXME: @active_polls containing all active polls created by other users
     @my_active_polls = Poll.get_my_active_polls(current_user)
-    @closed_polls = Poll.get_closed_polls
+    @my_closed_polls = Poll.get_my_closed_polls(current_user)
 
     respond_to do |format|
       format.html # index.html.erb

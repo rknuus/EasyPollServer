@@ -20,12 +20,12 @@ class Poll < ActiveRecord::Base
     find(:all, :conditions => 'closed_at IS NULL')
   end
   
-  def self.get_my_active_polls(my_user)
-    find(:all, :conditions => { :closed_at => nil, :user_id => my_user.id } ) unless my_user.nil?
+  def self.get_my_active_polls(user)
+    find(:all, :conditions => { :closed_at => nil, :user_id => user.id } ) unless user.nil?
   end
 
-  def self.get_closed_polls
-    find(:all, :conditions => 'closed_at IS NOT NULL')
+  def self.get_my_closed_polls(user)
+    find(:all, :conditions => "closed_at IS NOT NULL AND user_id IS #{user.id}") unless user.nil?
   end
     
 private
