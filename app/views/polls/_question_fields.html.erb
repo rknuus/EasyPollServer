@@ -9,6 +9,11 @@
   <%= f.label "question kind" %><br />
   <span class="<%= field_class %>"><%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %></span>
 </div>
+
+<%= f.fields_for :options do |builder| %>
+  <%= render 'option_fields', :f => builder %>
+<% end %>
+
 <% if show_delete? %>
 <div class="field">
 	<%= f.check_box '_destroy' %>

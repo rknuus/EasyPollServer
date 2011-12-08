@@ -41,3 +41,5 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'  #required for save_and_open_page
 end
+
+gem 'devise'
