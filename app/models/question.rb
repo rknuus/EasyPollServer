@@ -25,6 +25,6 @@ private
   end
   
   def remove_empty_options
-    self.options.delete_if { |option| option.blank? }
+    self.options.delete_if { |option| option.text.blank? }
   end
 end

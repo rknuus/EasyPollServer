@@ -3,6 +3,7 @@ class PollsController < ApplicationController
   
   # GET /polls
   def index
+    reset_session
     @all_active_polls = Poll.get_all_active_polls
     @my_active_polls = Poll.get_my_active_polls(current_user)
     @my_closed_polls = Poll.get_my_closed_polls(current_user)
@@ -26,24 +27,35 @@ class PollsController < ApplicationController
   def create
     load_session_variables
     @question = @poll.questions.pop || Question.new
+
     if was_button_pressed?(:cancel_button)
       reset_session
 
       respond_to do |format|
         format.html { redirect_to polls_url }
       end
-      
+
     elsif was_button_pressed?(:new_question_button)
-      
+
       if @question.valid?
         @poll.questions << @question
         @question = Question.new
       end
       rerender_new
-      
+
     elsif was_button_pressed?(:update_button)
-      rerender_new
       
+      # puts "Params before delete"
+      # puts params
+      # destroy_options_if_required
+      # puts "Params after delete"
+      # puts params
+      # load_session_variables
+      # puts "Params after load_session_variables"
+      # puts params
+      
+      rerender_new
+
     else #was_button_pressed?(:publish_button)
       if @poll.save
         reset_session
@@ -121,6 +133,15 @@ private
     end
     @question = Question.new
   end
+  
+  # def destroy_options_if_required
+  #   params[:poll][:questions_attributes].each_with_index do |dummy_i, i|
+  #     if !params[:poll][:questions_attributes][i.to_s][:_destroy].nil? && params[:poll][:questions_attributes][i.to_s][:_destroy] == "1"
+  #       params[:poll][:questions_attributes].delete :i
+  #     end
+  #   end
+  #   session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
+  # end
   
   def was_button_pressed?(button)
     params[button]
