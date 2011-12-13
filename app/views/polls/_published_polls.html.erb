@@ -18,7 +18,7 @@
 	    <td><%= poll.user.full_name %></td>
 	    <td><%= poll.questions.count %></td>
 	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
-	    <td><%= button_to 'Answer poll', participations_path(:poll_id => poll) %></td>
+	    <td><%= link_to 'Answer poll', new_participation_path(:poll_id => poll) %></td>
 	  </tr>
 	<% end %>
 	</table>

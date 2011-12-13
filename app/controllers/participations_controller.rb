@@ -19,7 +19,9 @@ class ParticipationsController < ApplicationController
 
   # GET /participations/new
   def new
-    @participation = Participation.new
+    @poll = Poll.find(params[:poll_id])
+    @user = current_user
+    @participation = @user.participations.build(:poll => @poll)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -33,21 +35,14 @@ class ParticipationsController < ApplicationController
 
   # POST /participations
   def create
-    @poll = Poll.find(params[:poll_id])
-    @user = current_user
-    @participation = @user.participations.build(:poll => @poll)
+    debugger
+    @participation = Participation.new(params[:participation])
 
-    if !was_button_pressed?(:answer_button)
-      respond_to do |format|
+    respond_to do |format|
+      if @participation.save
+        format.html { redirect_to "/", notice: 'Participation was successfully created.' }
+      else
         format.html { render action: "new" }
-      end
-    else
-      respond_to do |format|
-        if @participation.save
-          format.html { redirect_to "/", notice: 'Participation was successfully created.' }
-        else
-          format.html { render action: "new" }
-        end
       end
     end
   end
