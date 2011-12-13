@@ -1,6 +1,6 @@
 == TBD
-bug: option texts are not properly stored to the DB
 bug: removing questions from a poll results in errors
+     partially fixed: works to delete SINGLE questions, when adding a different question after deletion before publishing poll
 
 == B.3
 add: options validation when adding a question

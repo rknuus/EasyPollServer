@@ -16,8 +16,8 @@
 
 <% if show_delete? %>
 <div class="field">
-	<%= f.check_box '_destroy' %>
-	<%= f.label '_destroy', 'Remove' %>
+	<%= check_box_tag 'delete_question[' + (question_index - 1).to_s + ']', question_index - 1 %>
+	<%= f.label 'delete_question[' + (question_index - 1).to_s + ']', 'Remove' %>
 </div>
 <div class="actions">
   <%= f.submit 'Update', :name => 'update_button', :confirm => 'Are you sure?' %>

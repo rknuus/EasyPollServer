@@ -39,20 +39,20 @@ class PollsController < ApplicationController
 
       if @question.valid?
         @poll.questions << @question
-        @question = Question.new
       end
+      @question = Question.new
       rerender_new
 
     elsif was_button_pressed?(:update_button)
-      
-      # puts "Params before delete"
-      # puts params
-      # destroy_options_if_required
-      # puts "Params after delete"
-      # puts params
-      # load_session_variables
-      # puts "Params after load_session_variables"
-      # puts params
+      if was_button_pressed?(:delete_question)
+        questions_to_delete = Array.new
+        params[:delete_question].each do |delete_param|
+          questions_to_delete.push( delete_param[0].to_i )
+        end
+        questions_to_delete.reverse.each do |q|
+          @poll.questions.delete_at(q)
+        end
+      end
       
       rerender_new
 
@@ -123,26 +123,19 @@ private
   
   def load_session_variables
     #FIXME: can we use params[:poll] instead?
+    
     session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
     @poll = Poll.new(session[:poll_params])
     @poll.questions_attributes = session[:poll_params][:questions_attributes] if session[:poll_params][:questions_attributes]
     @poll.questions.each_with_index do |question, i|
       question.options = []
-      question.options_attributes = params[:poll][:questions_attributes][i.to_s][:options_attributes] if params[:poll][:questions_attributes] && params[:poll][:questions_attributes][i.to_s][:options_attributes]
+      question.options_attributes = params[:poll][:questions_attributes][i.to_s][:options_attributes] if params[:poll][:questions_attributes] && params[:poll][:questions_attributes][i.to_s] && params[:poll][:questions_attributes][i.to_s][:options_attributes]
       # @poll.questions[i] = question
     end
+    
     @question = Question.new
   end
-  
-  # def destroy_options_if_required
-  #   params[:poll][:questions_attributes].each_with_index do |dummy_i, i|
-  #     if !params[:poll][:questions_attributes][i.to_s][:_destroy].nil? && params[:poll][:questions_attributes][i.to_s][:_destroy] == "1"
-  #       params[:poll][:questions_attributes].delete :i
-  #     end
-  #   end
-  #   session[:poll_params].deep_merge!(params[:poll]) if params[:poll]
-  # end
-  
+
   def was_button_pressed?(button)
     params[button]
   end

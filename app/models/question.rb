@@ -5,12 +5,12 @@ class Question < ActiveRecord::Base
   validates_inclusion_of :kind, :in => KINDS
   # validate :two_or_more_options
   
-  before_save :remove_empty_options
-  after_initialize :build_options
-  
   belongs_to :poll
   has_many :options, :dependent => :destroy
   accepts_nested_attributes_for :options, :allow_destroy => true
+  
+  before_save :remove_empty_options
+  after_initialize :build_options
 
 private  
   def two_or_more_options
