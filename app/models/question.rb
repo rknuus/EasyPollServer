@@ -20,8 +20,7 @@ private
   end
   
   def build_options
-    self.options.clear
-    10.times { self.options.push Option.new }
+    10.times { self.options.push Option.new } if self.options.empty?
   end
   
   def remove_empty_options
