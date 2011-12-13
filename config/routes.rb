@@ -1,5 +1,7 @@
 EasyPollServer::Application.routes.draw do
 
+  resources :answers
+
   resources :participations
 
   devise_for :admins
