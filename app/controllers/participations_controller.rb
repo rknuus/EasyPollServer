@@ -38,6 +38,10 @@ class ParticipationsController < ApplicationController
     @participation = Participation.new
     @participation.user = current_user #User.find(params[:user_id])
     @participation.poll = Poll.find(params[:participation][:poll][:poll_id])
+    
+    answered_option_ids.each do |option_id|
+      @participation.answers.build(:option_id => option_id)
+    end
 
     respond_to do |format|
       if @participation.save
@@ -74,5 +78,13 @@ class ParticipationsController < ApplicationController
 private  
   def was_button_pressed?(button)
     params[button]
+  end
+  
+  def answered_option_ids
+    option_ids = []
+    params[:participation][:poll][:questions_attributes].each do |question|
+      option_ids << params[question[1][:id]]
+    end
+    option_ids
   end
 end
