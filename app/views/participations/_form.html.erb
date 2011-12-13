@@ -12,17 +12,12 @@
   <% end %>
 
 	<ol>
-		<% @participation.poll.questions.each do |question| %>
-			<li>
-				<%= f.hidden_field :poll_id, :value => @participation.poll.id %>
-				<%= f.hidden_field :user_id, :value => @participation.user.id %>
-				<%= question.text %><br />
-				<% question.options.each do |option| %>
-					<%= option_tag_for(option, question) %>
-					<label for="options"><%= option.text %></label>
-					<!-- < %= f.radio_button :option, option.text %> -->
-				<% end %>
-			</li>
+		<%= f.fields_for :poll, @participation.poll do |pb| %>
+			<%= pb.hidden_field :poll_id, :value => pb.object.id %>
+			<%= pb.hidden_field :user_id, :value => @participation.user.id %>
+			<%= pb.fields_for :questions, pb.object.questions do |qb| %>
+				<%= render 'question_fields', :f => qb %>
+			<% end %>
 		<% end %>
 	</ol>
 

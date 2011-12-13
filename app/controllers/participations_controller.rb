@@ -35,8 +35,9 @@ class ParticipationsController < ApplicationController
 
   # POST /participations
   def create
-    debugger
-    @participation = Participation.new(params[:participation])
+    @participation = Participation.new
+    @participation.user = current_user #User.find(params[:user_id])
+    @participation.poll = Poll.find(params[:participation][:poll][:poll_id])
 
     respond_to do |format|
       if @participation.save
