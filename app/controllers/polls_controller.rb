@@ -92,15 +92,6 @@ class PollsController < ApplicationController
       end
     end
   end
-
-  # PUT /polls/1/answer
-  def answer
-    @poll = Poll.find(params[:id])
-
-    respond_to do |format|
-      format.html # answer.html.erb
-    end
-  end
   
 private
   def rerender_new
