@@ -4,6 +4,8 @@ EasyPollServer::Application.routes.draw do
 
   resources :participations
 
+  resources :token_authentications, :only => [:create, :destroy]
+
   devise_for :admins
 
   devise_for :users
