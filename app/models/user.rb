@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
          :rememberable,
          :trackable,
          :validatable
-         :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :first_name
@@ -20,4 +19,5 @@ class User < ActiveRecord::Base
   def full_name
     self.first_name + ' ' + self.name
   end
+  
 end

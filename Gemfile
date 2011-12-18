@@ -42,4 +42,5 @@ group :development, :test do
   gem 'launchy'  #required for save_and_open_page
 end
 
+gem 'warden'
 gem 'devise'

@@ -10,6 +10,7 @@ class PollsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.xml #{ render :xml => @all_active_polls.first }
     end
   end
 

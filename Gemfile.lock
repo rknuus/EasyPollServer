@@ -183,3 +183,4 @@ DEPENDENCIES
   sqlite3
   turn
   uglifier (>= 1.0.3)
+  warden
