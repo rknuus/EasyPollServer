@@ -7,7 +7,7 @@ else
       xml.poll do
         xml.id(poll.id)
         xml.title(poll.title)
-        xml.published_at(poll.published_at)
+        xml.published_at(poll.published_at.to_date)
         xml.category(poll.category)
         xml.user_name(User.find(poll.user_id).full_name)
         xml.questions_count(poll.questions.count)
