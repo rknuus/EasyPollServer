@@ -1,14 +1,18 @@
+xml.instruct!
 if !user_signed_in?
   xml.error("not signed in")
 else
-  @all_active_polls.each do |poll|
-    xml.poll do
-      xml.id(poll.id)
-      xml.title(poll.title)
-      xml.published_at(poll.published_at)
-      xml.created_at(poll.created_at)
-      xml.category(poll.category)
-      xml.user_id(poll.user_id)
+  xml.polls do
+    @all_active_polls.each do |poll|
+      xml.poll do
+        xml.id(poll.id)
+        xml.title(poll.title)
+        xml.published_at(poll.published_at)
+        xml.category(poll.category)
+        xml.user_name(User.find(poll.user_id).full_name)
+        xml.questions_count(poll.questions.count)
+        xml.participations_count(poll.participations.count)
+      end
     end
   end
 end
