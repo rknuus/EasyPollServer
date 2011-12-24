@@ -10,7 +10,7 @@ EasyPollServer::Application.routes.draw do
 
   devise_for :users
 
-  resources :polls, :only => [:index, :new, :create, :destroy] do
+  resources :polls, :only => [:index, :show, :new, :create, :destroy] do
     member do
       put 'close'
       put 'update'

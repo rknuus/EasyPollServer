@@ -10,7 +10,16 @@ class PollsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml #{ render :xml => @all_active_polls.first }
+      format.xml
+    end
+  end
+  
+  # GET /polls/1
+  def show
+    @active_poll = nil
+    @active_poll = Poll.find(params[:id]) if Poll.exists?(params[:id])
+    respond_to do |format|
+      format.xml
     end
   end
 
