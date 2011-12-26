@@ -5,7 +5,12 @@
 		<%= f.fields_for :options, f.object.options do |builder| %>
 		  <!-- < %= render 'option_fields', :f => builder, :locals => { :question => f.object.text } %> -->
 			<div class="field">
-			  <%= radio_button_tag f.object.id, builder.object.id %><%= builder.object.text %>
+			  <% if f.object.kind == "multiple choice" %>
+			    <%= check_box_tag "#{f.object.id}[]", builder.object.id %>
+			  <% else %>
+			    <%= radio_button_tag "#{f.object.id}[]", builder.object.id %>
+			  <% end %>
+			  <%= builder.object.text %>
 			</div>
 		<% end %>
 	</div>

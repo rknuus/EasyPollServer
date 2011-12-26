@@ -83,7 +83,9 @@ private
   def answered_option_ids
     option_ids = []
     params[:participation][:poll][:questions_attributes].each do |question|
-      option_ids << params[question[1][:id]]
+      params[question[1][:id]].each do |selection|
+        option_ids << selection
+      end
     end
     option_ids
   end
