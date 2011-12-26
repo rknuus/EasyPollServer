@@ -10,6 +10,7 @@ else
     xml.published_at(@active_poll.published_at.to_date)
     xml.category(@active_poll.category)
     xml.user_name(User.find(@active_poll.user_id).full_name)
+    xml.my_user_id(current_user.id)
     xml.questions_count(@active_poll.questions.count)
     xml.participations_count(@active_poll.participations.count)
     xml.questions do

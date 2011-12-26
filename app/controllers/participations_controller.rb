@@ -36,7 +36,7 @@ class ParticipationsController < ApplicationController
   # POST /participations
   def create
     @participation = Participation.new
-    @participation.user = current_user #User.find(params[:user_id])
+    @participation.user = User.find(params[:participation][:poll][:user_id])
     @participation.poll = Poll.find(params[:participation][:poll][:poll_id])
     
     answered_option_ids.each do |option_id|
