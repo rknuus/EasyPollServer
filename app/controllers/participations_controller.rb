@@ -44,10 +44,14 @@ class ParticipationsController < ApplicationController
     end
 
     respond_to do |format|
-      if @participation.save
-        format.html { redirect_to "/", notice: 'Participation was successfully created.' }
+      if Participation.find(:first, :conditions => "poll_id IS #{@participation.poll.id} AND user_id IS #{@participation.user.id}").nil?
+        if @participation.save
+          format.html { redirect_to "/", notice: 'Participation was successfully created.' }
+        else
+          format.html { render action: "new" }
+        end
       else
-        format.html { render action: "new" }
+        format.html { redirect_to "/", notice: 'You already participated - not saved.' }
       end
     end
   end
