@@ -5,6 +5,19 @@ class PollsController < ApplicationController
   def index
     reset_session
     @all_active_polls = Poll.get_all_active_polls
+    @all_unanswered_polls = Array.new
+    @all_answered_polls = Array.new
+    if !current_user.nil?
+      @all_active_polls.each do |poll|
+        if Participation.find(:first, :conditions => "poll_id IS #{poll.id} AND user_id IS #{current_user.id}").nil?
+          @all_unanswered_polls << poll
+        else
+          @all_answered_polls << poll
+        end
+      end
+    else
+      @all_unanswered_polls = @all_active_polls
+    end
     @my_active_polls = Poll.get_my_active_polls(current_user)
     @my_closed_polls = Poll.get_my_closed_polls(current_user)
 
