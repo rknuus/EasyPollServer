@@ -7,21 +7,26 @@
   <%= csrf_meta_tags %>
 </head>
 <body id="easypoll">
-  <div id="header">
-    Placeholder for page header
-  </div>
-  <div id="login">
-    <% if user_signed_in? %>
-      Logged in as <%= current_user.email %> |
-      <%= link_to('Edit registration', edit_user_registration_path) %> |
-      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-    <% elsif admin_signed_in? %>
-      <%= link_to('Edit registration', edit_admin_registration_path) %> |
-      <%= link_to('Logout', destroy_admin_session_path, :method => :delete) %>
-    <% else %>
-      <%= link_to('Login', new_user_session_path)  %> | 
-      <%= link_to('Register', new_user_registration_path)  %>
-    <% end %>
+  <div id="background_header">
+    <div id="header">
+	  Placeholder for page header
+	</div>
+    <div id="home">
+	  <%= link_to(image_tag('/images/home.png'), '/')%>
+	</div>
+	<div id="login">
+	  <% if user_signed_in? %>
+	    Logged in as <%= current_user.email %> |
+	    <%= link_to('Edit registration', edit_user_registration_path) %> |
+	    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+	  <% elsif admin_signed_in? %>
+	    <%= link_to('Edit registration', edit_admin_registration_path) %> |
+	    <%= link_to('Logout', destroy_admin_session_path, :method => :delete) %>
+	  <% else %>
+	    <%= link_to('Login', new_user_session_path)  %> | 
+	    <%= link_to('Register', new_user_registration_path)  %>
+	  <% end %>
+	</div>
   </div>
   <div id="main">
     <%= yield %>
