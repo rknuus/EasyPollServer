@@ -1,4 +1,8 @@
-<div class="field">
-  <%= f.label "question option" %> 
+<% if @option_row == 4 %>
+  <div class="field">
+<% else %>
+  <div class="field" style="width: 200px; float: left;">
+<% end %>
+<% next_option %>
   <span class="field"><%= f.text_field :text %></span>
 </div>

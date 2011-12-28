@@ -9,7 +9,8 @@
   <%= f.label "question kind" %><br />
   <span class="<%= field_class %>"><%= f.select :kind, Question::KINDS, :prompt => 'Select a kind' %></span>
 </div>
-
+<%= f.label "Question options" %><br /> 
+<% start_option_list %>
 <%= f.fields_for :options do |builder| %>
   <%= render 'option_fields', :f => builder %>
 <% end %>

@@ -27,6 +27,14 @@ module PollsHelper
     # @show_existent_options = false
   end
   
+  def start_option_list
+    @option_row = 0
+  end
+  
+  def next_option
+    @option_row = (@option_row + 1) % 5
+  end
+  
   def show_delete?
     @show_delete
   end
