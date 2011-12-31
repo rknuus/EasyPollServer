@@ -1,4 +1,4 @@
-<% if @poll_result %>
+<% if @poll_result && @poll_result.participations.find(:first, :conditions => "user_id IS #{current_user.id}") %>
   <h1><%= @poll_result.title %> results</h1>
   <table>
     <tr>
@@ -49,7 +49,7 @@
 		  <td><%= k + 1 %></td>
 		  <td><%= option.text %></td>
 		  <td><%= option.answers.count %></td>
-		  <td><%= ((option.answers.count.to_f / @poll_result.participations.count.to_f) * 100).round(2) %> %</td>
+		  <td><%= @poll_result.participations.count == 0 ? "-" : ((option.answers.count.to_f / @poll_result.participations.count.to_f) * 100).round(2).to_s + " %" %></td>
 		</tr>
 	  <% end %>
 	</table>

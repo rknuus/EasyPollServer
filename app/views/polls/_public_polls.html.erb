@@ -39,7 +39,7 @@
 	</tr>
     <% @all_answered_polls.each do |poll| %>
 	  <tr>
-	    <td><%= poll.title %></td>
+	    <td><%= link_to poll.title, :controller => "polls", :action => "show_results", :id => poll %></td>
 	    <td><%= poll.category %></td>
 	    <td><%= poll.user.full_name %></td>
 	    <td><%= poll.questions.count %></td>
