@@ -35,6 +35,15 @@ class PollsController < ApplicationController
       format.xml
     end
   end
+  
+  # GET /polls/1/show_results
+  def show_results
+    @poll_results = nil
+    @poll_results = Poll.find(params[:id]) if Poll.exists?(params[:id])
+    respond_to do |format|
+      format.html
+    end
+  end
 
   # GET /polls/new
   def new

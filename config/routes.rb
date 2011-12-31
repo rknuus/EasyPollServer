@@ -14,6 +14,7 @@ EasyPollServer::Application.routes.draw do
     member do
       put 'close'
       put 'update'
+      get 'show_results'
     end
   end
 

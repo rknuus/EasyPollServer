@@ -53,7 +53,7 @@
 	    <td><%= poll.questions.count %></td>
 	    <td><%= poll.closed_at.to_formatted_s(:long) %></td>
 	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
-	    <td><%= link_to 'Download poll results', poll %></td>
+	    <td><%= link_to "Show poll results", :controller => "polls", :action => "show_results", :id => poll %></td>
 	    <!-- <td>< %= link_to 'Download poll results', get_poll_result_path(poll) %></td> -->
 	    <td><%= button_to 'Delete poll', poll, confirm: 'Are you sure?', :method => :delete %></td>
 	  </tr>
