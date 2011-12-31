@@ -1,7 +1,62 @@
-<h1>Poll results</h1>
+<% if @poll_result %>
+  <h1><%= @poll_result.title %> results</h1>
+  <table>
+    <tr>
+	  <th>Category</th>
+	  <td><%= @poll_result.category %></td>
+	</tr>
+	<tr>
+	  <th>Created by</th>
+	  <td><%= @poll_result.user.full_name %></td>
+	</tr>
+	<tr>
+	  <th>Published at</th>
+	  <td><%= @poll_result.published_at.to_formatted_s(:long) %></td>
+	</tr>
+	<tr>
+	  <th>Closed at</th>
+	  <td>
+		<% if @poll_result.closed_at.nil? %>
+		  Not closed yet
+		<% else %>
+	      <%= @poll_result.closed_at.to_formatted_s(:long) %></td>
+	    <% end %>
+	  </td>
+	</tr>
+	<tr>
+	  <th>Questions</th>
+	  <td><%= @poll_result.questions.count %></td>
+	</tr>
+	<tr>
+	  <th>Participations</th>
+	  <td><%= @poll_result.participations.count %></td>
+	</tr>
+  </table>
 
-<% if @poll_results %>
-  test
+  <% @poll_result.questions.each_with_index do |question, i| %>
+    <h2><%=i + 1 %>. <%= question.text%></h2>
+    <p>Kind: <%= question.kind %></p>
+    <h3>Answers</h3>
+    <table>
+	  <tr>
+		<th>#</th>
+		<th>Option text</th>
+		<th># of answers</th>
+		<th>% of answers</th>
+	  </tr>
+	  <% question.options.each_with_index do |option, k| %>
+	    <tr>
+		  <td><%= k + 1 %></td>
+		  <td><%= option.text %></td>
+		  <td><%= option.answers.count %></td>
+		  <td><%= ((option.answers.count.to_f / @poll_result.participations.count.to_f) * 100).round(2) %> %</td>
+		</tr>
+	  <% end %>
+	</table>
+  <% end %>
+
 <% else %>
-  poll id invalid
+  <h1>Poll results error</h1>
+  <p>Invalid poll id.</p>
 <% end %>
+<%= link_to 'back', polls_path %>

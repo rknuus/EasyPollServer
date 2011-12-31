@@ -38,8 +38,8 @@ class PollsController < ApplicationController
   
   # GET /polls/1/show_results
   def show_results
-    @poll_results = nil
-    @poll_results = Poll.find(params[:id]) if Poll.exists?(params[:id])
+    @poll_result = nil
+    @poll_result = Poll.find(params[:id]) if Poll.exists?(params[:id])
     respond_to do |format|
       format.html
     end
