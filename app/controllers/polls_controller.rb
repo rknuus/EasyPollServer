@@ -20,14 +20,6 @@ class PollsController < ApplicationController
     end
   end
   
-  def index_unanswered
-    
-  end
-  
-  def index_answered
-    
-  end
-  
   # GET /polls/1
   def show
     if params[:id] == "index_unanswered"
