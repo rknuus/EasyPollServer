@@ -1,53 +1,85 @@
-<h2>Unanswered polls</h2>
-<% if @all_unanswered_polls && @all_unanswered_polls.count > 0 %>
-  <table>
-    <tr>
-	  <th>Title</th>
-	  <th>Category</th>
-	  <th>Creator</th>
-	  <th># of questions</th>
-	  <th># of participations</th>
-	  <th>Published at</th>
-	  <th></th>
-	</tr>
-    <% @all_unanswered_polls.each do |poll| %>
-	  <tr>
-	    <td><%= poll.title %></td>
-	    <td><%= poll.category %></td>
-	    <td><%= poll.user.full_name %></td>
-	    <td><%= poll.questions.count %></td>
-	    <td><%= poll.participations.count %></td>
-	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
-	    <td><%= link_to 'Answer poll', new_participation_path(:poll_id => poll) if user_signed_in? %></td>
-	  </tr>
-	<% end %>
-  </table>
+<% if current_user.nil? %>
+  <h2>Published polls</h2>
+  <% if @all_open_polls && @all_open_polls.count > 0 %>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Creator</th>
+        <th># of questions</th>
+        <th># of participations</th>
+        <th>Published at</th>
+        <th></th>
+      </tr>
+      <% @all_open_polls.each do |poll| %>
+        <tr>
+          <td><%= poll.title %></td>
+          <td><%= poll.category %></td>
+          <td><%= poll.user.full_name %></td>
+          <td><%= poll.questions.count %></td>
+          <td><%= poll.participations.count %></td>
+          <td><%= poll.published_at.to_formatted_s(:long) %></td>
+          <td><%= link_to 'Answer poll', new_participation_path(:poll_id => poll) if user_signed_in? %></td>
+        </tr>
+	  <% end %>
+    </table>
+  <% else %>
+    <p>Found no published polls.</p>
+  <% end %>
 <% else %>
-  <p>Found no unanswered polls.</p>
-<% end %>
+  <h2>Unanswered polls</h2>
+  <% if @all_unanswered_polls && @all_unanswered_polls.count > 0 %>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Creator</th>
+        <th># of questions</th>
+        <th># of participations</th>
+        <th>Published at</th>
+        <th></th>
+      </tr>
+      <% @all_unanswered_polls.each do |poll| %>
+        <tr>
+          <td><%= poll.title %></td>
+          <td><%= poll.category %></td>
+          <td><%= poll.user.full_name %></td>
+          <td><%= poll.questions.count %></td>
+          <td><%= poll.participations.count %></td>
+          <td><%= poll.published_at.to_formatted_s(:long) %></td>
+          <td><%= link_to 'Answer poll', new_participation_path(:poll_id => poll) if user_signed_in? %></td>
+        </tr>
+	  <% end %>
+    </table>
+  <% else %>
+    <p>Found no unanswered polls.</p>
+  <% end %>
 
-<h2>Answered polls</h2>
-<% if @all_answered_polls && @all_answered_polls.count > 0 %>
-  <table>
-    <tr>
-	  <th>Title</th>
-	  <th>Category</th>
-	  <th>Creator</th>
-	  <th># of questions</th>
-	  <th># of participations</th>
-	  <th>Published at</th>
-	</tr>
-    <% @all_answered_polls.each do |poll| %>
-	  <tr>
-	    <td><%= link_to poll.title, :controller => "polls", :action => "show_results", :id => poll %></td>
-	    <td><%= poll.category %></td>
-	    <td><%= poll.user.full_name %></td>
-	    <td><%= poll.questions.count %></td>
-	    <td><%= poll.participations.count %></td>
-	    <td><%= poll.published_at.to_formatted_s(:long) %></td>
+  <h2>Answered polls</h2>
+  <% if @all_answered_polls && @all_answered_polls.count > 0 %>
+    <table>
+      <tr>
+	    <th>Title</th>
+	    <th>Category</th>
+	    <th>Creator</th>
+	    <th># of questions</th>
+	    <th># of participations</th>
+	    <th>Published at</th>
+	    <th>Closed at</th>
 	  </tr>
-	<% end %>
-  </table>
-<% else %>
-  <p>Found no answered polls.</p>
+      <% @all_answered_polls.each do |poll| %>
+	    <tr>
+	      <td><%= link_to poll.title, :controller => "polls", :action => "show_results", :id => poll %></td>
+	      <td><%= poll.category %></td>
+	      <td><%= poll.user.full_name %></td>
+	      <td><%= poll.questions.count %></td>
+	      <td><%= poll.participations.count %></td>
+	      <td><%= poll.published_at.to_formatted_s(:long) %></td>
+	      <td><%= poll.closed_at.to_formatted_s(:long) if !poll.closed_at.nil? %>
+	    </tr>
+	  <% end %>
+    </table>
+  <% else %>
+    <p>Found no answered polls.</p>
+  <% end %>
 <% end %>

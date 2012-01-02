@@ -1,20 +1,20 @@
 xml.instruct!
 if !user_signed_in?
   xml.error("not signed in")
-elsif @active_poll.nil?
+elsif @poll.nil?
   xml.error("invalid poll id")
 else
   xml.poll do
-    xml.id(@active_poll.id)
-    xml.title(@active_poll.title)
-    xml.published_at(@active_poll.published_at.to_date)
-    xml.category(@active_poll.category)
-    xml.user_name(User.find(@active_poll.user_id).full_name)
+    xml.id(@poll.id)
+    xml.title(@poll.title)
+    xml.published_at(@poll.published_at.to_date)
+    xml.category(@poll.category)
+    xml.user_name(User.find(@poll.user_id).full_name)
     xml.my_user_id(current_user.id)
-    xml.questions_count(@active_poll.questions.count)
-    xml.participations_count(@active_poll.participations.count)
+    xml.questions_count(@poll.questions.count)
+    xml.participations_count(@poll.participations.count)
     xml.questions do
-      @active_poll.questions.each do |question|
+      @poll.questions.each do |question|
         xml.question do
           xml.id(question.id)
           xml.text(question.text)

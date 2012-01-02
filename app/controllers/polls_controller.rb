@@ -4,19 +4,12 @@ class PollsController < ApplicationController
   # GET /polls
   def index
     reset_session
-    @all_active_polls = Poll.get_all_active_polls
+    @all_open_polls = Poll.get_all_active_polls
     @all_unanswered_polls = Array.new
     @all_answered_polls = Array.new
     if !current_user.nil?
-      @all_active_polls.each do |poll|
-        if Participation.find(:first, :conditions => "poll_id IS #{poll.id} AND user_id IS #{current_user.id}").nil?
-          @all_unanswered_polls << poll
-        else
-          @all_answered_polls << poll
-        end
-      end
-    else
-      @all_unanswered_polls = @all_active_polls
+      @all_unanswered_polls = Poll.get_all_active_unanswered_polls(current_user)
+      @all_answered_polls = Poll.get_all_answered_polls(current_user)
     end
     @my_active_polls = Poll.get_my_active_polls(current_user)
     @my_closed_polls = Poll.get_my_closed_polls(current_user)
@@ -29,8 +22,8 @@ class PollsController < ApplicationController
   
   # GET /polls/1
   def show
-    @active_poll = nil
-    @active_poll = Poll.find(params[:id]) if Poll.exists?(params[:id])
+    @poll = nil
+    @poll = Poll.find(params[:id]) if Poll.exists?(params[:id])
     respond_to do |format|
       format.xml
     end
@@ -42,6 +35,7 @@ class PollsController < ApplicationController
     @poll_result = Poll.find(params[:id]) if Poll.exists?(params[:id])
     respond_to do |format|
       format.html
+      format.xml
     end
   end
 

@@ -18,7 +18,22 @@ class Poll < ActiveRecord::Base
   end
   
   def self.get_all_active_polls
-    find(:all, :conditions => 'closed_at IS NULL')
+    find(:all, :conditions => 'closed_at IS NULL', :order => "published_at ASC")
+  end
+  
+  def self.get_all_active_unanswered_polls(user)
+    all_active_unanswered_polls = Array.new
+    polls = find(:all, :conditions => 'closed_at IS NULL', :order => "published_at ASC");
+    polls.each do |poll|
+      if Participation.find(:first, :conditions => "poll_id IS #{poll.id} AND user_id IS #{user.id}").nil?
+        all_active_unanswered_polls << poll
+      end
+    end
+    all_active_unanswered_polls
+  end
+  
+  def self.get_all_answered_polls(user)
+    find(:all, :joins => :participations, :conditions => { :participations => { :user_id => user.id } }, :order => "published_at ASC")
   end
   
   def self.get_my_active_polls(user)
