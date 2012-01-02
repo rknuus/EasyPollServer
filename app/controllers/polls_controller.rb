@@ -20,12 +20,42 @@ class PollsController < ApplicationController
     end
   end
   
+  def index_unanswered
+    
+  end
+  
+  def index_answered
+    
+  end
+  
   # GET /polls/1
   def show
-    @poll = nil
-    @poll = Poll.find(params[:id]) if Poll.exists?(params[:id])
-    respond_to do |format|
-      format.xml
+    if params[:id] == "index_unanswered"
+      @all_unanswered_polls = Array.new
+      if !current_user.nil?
+        @all_unanswered_polls = Poll.get_all_active_unanswered_polls(current_user)
+      end
+
+      respond_to do |format|
+        format.xml { render :action => "index_unanswered.xml.builder" }
+      end
+      
+    elsif params[:id] == "index_answered"
+      @all_answered_polls = Array.new
+      if !current_user.nil?
+        @all_answered_polls = Poll.get_all_answered_polls(current_user)
+      end
+
+      respond_to do |format|
+        format.xml { render :action => "index_answered.xml.builder" }
+      end
+      
+    else
+      @poll = nil
+      @poll = Poll.find(params[:id]) if Poll.exists?(params[:id])
+      respond_to do |format|
+        format.xml
+      end
     end
   end
   

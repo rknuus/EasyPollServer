@@ -15,6 +15,8 @@ EasyPollServer::Application.routes.draw do
       put 'close'
       put 'update'
       get 'show_results'
+      get 'index_unanswered'
+      get 'index_answered'
     end
   end
 
