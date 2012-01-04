@@ -2,7 +2,7 @@ EasyPollServer::Application.routes.draw do
 
   resources :answers
 
-  resources :participations
+  resources :participations, :only => [:new, :create]
 
   resources :token_authentications, :only => [:create, :destroy]
 

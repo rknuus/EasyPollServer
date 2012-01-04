@@ -9,7 +9,7 @@
 <body id="easypoll">
   <div id="background_header">
     <div id="header">
-	  Placeholder for page header
+	  Easy Poll Server Application
 	</div>
     <div id="home">
 	  <%= link_to(image_tag('/images/home.png'), '/')%>
@@ -29,13 +29,18 @@
 	</div>
   </div>
   <div id="main">
-    <%= yield %>
+	<% if flash[:alert] %>
+	  <p class="flash-error"><%= flash[:alert] %></p>
+	<% end %>
+	<% if flash[:notice] %>
+	  <p class="flash-notice"><%= flash[:notice] %></p>
+	<% end %>
+	<%= yield %>
   </div>
   <div id="footer">
-    <% if !admin_signed_in? %>
-      <%= link_to('Admin login', new_admin_session_path)  %> | 
-      <%= link_to('Admin Register', new_admin_registration_path)  %> (to be removed later)
-    <% end %>
+	<% if user_signed_in? %>
+	  Last login at: <%= current_user.last_sign_in_at.to_formatted_s(:long) %>
+	<% end %>
   </div>
 </body>
 </html>
