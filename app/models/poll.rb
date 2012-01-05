@@ -8,8 +8,8 @@ class Poll < ActiveRecord::Base
   
   validates_presence_of :title, :category, :published_at
   validates_inclusion_of :category, :in => CATEGORIES
-  validate :has_question?
-  #FIXME: should title be unique?!
+  #validate :has_question?
+  # validate :hay_valid_questions?
   
   after_initialize :initialize_published_at
   
@@ -49,7 +49,17 @@ private
     self.published_at = DateTime.now if self.published_at.nil?
   end
   
-  def has_question?
-    errors[:base] << 'Poll must have at least 1 question' if self.questions.blank?
-  end
+  # def has_question?
+  #   if self.questions.empty? or self.questions.all? {|question| question.marked_for_destruction? }
+  #     errors[:base] << 'Poll must have at least 1 question'
+  #   end
+  # end
+  
+  # def hay_valid_questions?
+  #   if !self.questions.empty?
+  #     self.questions.each do |question|
+  #       
+  #     end
+  #   end
+  # end
 end

@@ -74,47 +74,51 @@ class PollsController < ApplicationController
   # POST /polls
   def create
     load_session_variables
-    @question = @poll.questions.pop || Question.new
-
+    
     if was_button_pressed?(:cancel_button)
       reset_session
-
       respond_to do |format|
         format.html { redirect_to polls_url }
       end
-
-    elsif was_button_pressed?(:new_question_button)
-
-      if @question.valid?
+    end
+    
+    if was_button_pressed?(:delete_question)
+      questions_to_delete = Array.new
+      params[:delete_question].each do |delete_param|
+        questions_to_delete.push( delete_param[0].to_i )
+      end
+      questions_to_delete.reverse.each do |q|
+        @poll.questions.delete_at(q)
+      end
+    end
+    
+    @question = @poll.questions.pop || Question.new
+    
+    if was_button_pressed?(:new_question_button)
+      if question_valid?
         @poll.questions << @question
       end
       @question = Question.new
       rerender_new
 
     elsif was_button_pressed?(:update_button)
-      if was_button_pressed?(:delete_question)
-        questions_to_delete = Array.new
-        params[:delete_question].each do |delete_param|
-          questions_to_delete.push( delete_param[0].to_i )
-        end
-        questions_to_delete.reverse.each do |q|
-          @poll.questions.delete_at(q)
-        end
-      end
-      
       rerender_new
 
     else #was_button_pressed?(:publish_button)
-      if @poll.save
-        reset_session
-
-        respond_to do |format|
-          format.html { redirect_to polls_url, notice: 'Poll was successfully created.' }
+      if poll_valid?
+        if @poll.save
+          reset_session
+          respond_to do |format|
+            format.html { redirect_to polls_url, notice: 'Poll was successfully created.' }
+          end
+        else
+          rerender_new
         end
       else
         rerender_new
       end
     end
+    
   end
   
   # DELETE /polls/1
@@ -177,5 +181,29 @@ private
 
   def was_button_pressed?(button)
     params[button]
+  end
+  
+  def poll_valid?
+    poll_validity = false
+    if @poll.valid?
+      valid_questions_count = 0
+      @poll.questions.each do |question|
+        valid_option_count = 0
+        question.options.each do |option|
+          valid_option_count += 1 if !option.text.blank?
+        end
+        valid_questions_count += 1 if question.valid? && valid_option_count > 1
+      end
+      poll_validity = true if valid_questions_count == @poll.questions.size
+    end
+    poll_validity
+  end
+  
+  def question_valid?
+    valid_option_count = 0
+    @question.options.each do |option|
+      valid_option_count += 1 if !option.text.blank?
+    end
+    @question.valid? && valid_option_count > 1
   end
 end
