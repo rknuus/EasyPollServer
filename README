@@ -1,15 +1,15 @@
-== About Easy Poll Server
+== About Easy Poll Server ==
 
-Easy Poll Server is a web application to create polls and attend polls.
-Besides filling in poll questions online the application [will] also provide
-questions of a poll in a simple text format to smart phone clients.
+Easy Poll Server is a web application to create polls and answer polls.
+Besides filling in poll questions online the application also supports
+answering a poll in XML format by smart phone clients.
 
-An Android application will be realized to process the simple text format
+An Android application is realized to process the XML format
 and display the questions on a smart phone. The smart phone user can enter
 her/his answers and post them.
 
 Easy Poll Server collects all answers. The poll initiator can close a poll
-and download the results.
+and view the results.
 
 The project is subject of an assignment. Further the authors get familiar
 with Ruby on Rails and experiment with TDD.
