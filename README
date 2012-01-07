@@ -16,5 +16,10 @@ with Ruby on Rails and experiment with TDD.
 
 == Setup/Update ==
 
+* install Ruby on Rails (version 3.1.1)
+* git clone git@github.com:rknuus/EasyPollServer.git
+* cd into EasyPollServer directory
 * run <code>bundle</code> to install all required gems
 * run <code>rake db:migrate</code> to setup the DB
+* run <code>rails server</code> to start the development server
+* navigate to http://localhost:3000 in your browser to access the application
