@@ -1,8 +1,8 @@
-== TBD
+== TBD ==
 bug: removing questions from a poll results in errors
      partially fixed: works to delete SINGLE questions, when adding a different question after deletion before publishing poll
 
-== B.3
+== B.3 ==
 add: options validation when adding a question
 fix: deleted forgotten comments from question model
 fix: deleted forgotten comments from polls controller
@@ -11,13 +11,13 @@ add: poll creation with options possible, bugs at the delete and update button
 add: partially integrated option into poll creation
 fix: rspec tests
 
-== B.2
+== B.2 ==
 add:	User Management
 
-== A.7
+== A.7 ==
 add:    support deletion of questions
 
-== A.6
+== A.6 ==
 change: renamed repository.
         !!!Requires update of git remote URL!!!
         e.g. <code>git config --local remote.origin.url "git@github.com:<you>/EasyPollServer.git"</code>
