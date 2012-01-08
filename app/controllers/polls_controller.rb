@@ -75,13 +75,6 @@ class PollsController < ApplicationController
   def create
     load_session_variables
     
-    if was_button_pressed?(:cancel_button)
-      reset_session
-      respond_to do |format|
-        format.html { redirect_to polls_url }
-      end
-    end
-    
     if was_button_pressed?(:delete_question)
       questions_to_delete = Array.new
       params[:delete_question].each do |delete_param|
@@ -94,7 +87,13 @@ class PollsController < ApplicationController
     
     @question = @poll.questions.pop || Question.new
     
-    if was_button_pressed?(:new_question_button)
+    if was_button_pressed?(:cancel_button)
+      reset_session
+      respond_to do |format|
+        format.html { redirect_to polls_url }
+      end
+      
+    elsif was_button_pressed?(:new_question_button)
       if question_valid?
         @poll.questions << @question
       end
